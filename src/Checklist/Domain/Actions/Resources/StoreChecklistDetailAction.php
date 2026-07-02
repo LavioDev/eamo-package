@@ -19,11 +19,13 @@ use Illuminate\Support\Str;
 
 final class StoreChecklistDetailAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(StoreChecklistDetailRequest $request): JsonResponse
      {
         // TODO: Implement custom logic

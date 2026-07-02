@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
 
 final class IndexEquipmentStopRateAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(Request $request): JsonResponse

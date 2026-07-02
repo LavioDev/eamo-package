@@ -12,6 +12,7 @@ use Throwable;
 
 final class ShowEquipmentParameterLogAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(string $id): JsonResponse

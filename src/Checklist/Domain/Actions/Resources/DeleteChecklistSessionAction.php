@@ -12,6 +12,7 @@ use Modules\Equipment\Checklist\Domain\Events\Resources\ChecklistSessionDeleted;
 
 final class DeleteChecklistSessionAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(string $id): JsonResponse

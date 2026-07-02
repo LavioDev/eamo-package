@@ -14,11 +14,13 @@ use Throwable;
 
 final class JudgeSessionAction
 {
+
     use AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(JudgeSessionRequest $request): JsonResponse
      {
         // TODO: Implement custom logic

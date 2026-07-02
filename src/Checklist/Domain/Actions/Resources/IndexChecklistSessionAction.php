@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 
 final class IndexChecklistSessionAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(Request $request): JsonResponse

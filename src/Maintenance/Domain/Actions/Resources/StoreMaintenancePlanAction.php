@@ -16,6 +16,7 @@ use Carbon\Carbon;
 
 final class StoreMaintenancePlanAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(StoreMaintenancePlanRequest $request): JsonResponse
@@ -23,11 +24,4 @@ final class StoreMaintenancePlanAction
         // TODO: Implement custom logic
         return response()->json([]);
     }
-
-    public function handle(array $input): array
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
 }

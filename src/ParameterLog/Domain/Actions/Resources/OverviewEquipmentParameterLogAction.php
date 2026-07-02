@@ -16,21 +16,10 @@ use Modules\Masterdata\Equipment\Infrastructure\Models\Equipment;
 
 final class OverviewEquipmentParameterLogAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(Request $request, string $equipmentId): JsonResponse
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
-    private function calculateShiftTime($timeShifts, $equipmentErrorLog, $startTime, $endTime)
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
-    private function calculateUnplannedStopTime($shiftStart, $shiftEnd, $equipmentErrorLog)
      {
         // TODO: Implement custom logic
         return response()->json([]);

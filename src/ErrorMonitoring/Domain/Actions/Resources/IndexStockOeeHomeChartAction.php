@@ -13,6 +13,7 @@ use Modules\Manufacturing\Statistics\Presentation\Requests\GetOeeRequest;
 
 final class IndexStockOeeHomeChartAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(GetOeeRequest $request): JsonResponse

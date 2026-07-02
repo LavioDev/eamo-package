@@ -9,6 +9,7 @@ use Modules\Masterdata\Equipment\Infrastructure\Models\EquipmentError;
 
 final readonly class GetStopErrorRateAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(): JsonResponse

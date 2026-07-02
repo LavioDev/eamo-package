@@ -14,6 +14,7 @@ use Throwable;
 
 final class DeleteEquipmentParameterLogAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(string $id): JsonResponse

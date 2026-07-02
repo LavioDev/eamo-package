@@ -16,11 +16,13 @@ use Modules\Equipment\ParameterLog\Domain\Events\Resources\EquipmentParameterLog
 
 final class UpdateEquipmentParameterLogAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(string $id, UpdateEquipmentParameterLogRequest $request): JsonResponse
      {
         // TODO: Implement custom logic

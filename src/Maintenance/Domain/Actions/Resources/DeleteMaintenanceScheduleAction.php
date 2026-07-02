@@ -14,6 +14,7 @@ use Throwable;
 
 final class DeleteMaintenanceScheduleAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(string $id): JsonResponse
@@ -21,5 +22,4 @@ final class DeleteMaintenanceScheduleAction
         // TODO: Implement custom logic
         return response()->json([]);
     }
-
 }

@@ -15,6 +15,7 @@ use Throwable;
 
 final class DeleteMaintenanceCategoryAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(string $id): JsonResponse
@@ -22,4 +23,4 @@ final class DeleteMaintenanceCategoryAction
         // TODO: Implement custom logic
         return response()->json([]);
     }
-}   
+}

@@ -20,11 +20,13 @@ use Modules\Masterdata\Product\Domain\Events\Resources\ProductCreated;
 
 final class StoreMaintenanceCategoryAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(StoreMaintenanceCategoryRequest $request): JsonResponse
      {
         // TODO: Implement custom logic

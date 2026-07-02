@@ -16,14 +16,16 @@ use Modules\Equipment\ErrorMonitoring\Domain\Events\Resources\EquipmentErrorLogC
 
 final class StoreEquipmentErrorLogAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(StoreEquipmentErrorLogRequest $request): JsonResponse
      {
         // TODO: Implement custom logic
         return response()->json([]);
     }
-} 
+}

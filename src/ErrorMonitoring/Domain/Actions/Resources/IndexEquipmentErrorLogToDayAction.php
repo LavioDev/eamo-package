@@ -15,6 +15,7 @@ use Throwable;
 
 final class IndexEquipmentErrorLogToDayAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(Request $request): JsonResponse

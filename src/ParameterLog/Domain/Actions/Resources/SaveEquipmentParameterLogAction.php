@@ -18,6 +18,7 @@ use Throwable;
 
 final class SaveEquipmentParameterLogAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(SaveEquipmentParameterLogRequest $request)

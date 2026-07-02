@@ -12,6 +12,7 @@ use Throwable;
 
 final class ShowChecklistSessionAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(string $id): JsonResponse
@@ -19,4 +20,4 @@ final class ShowChecklistSessionAction
         // TODO: Implement custom logic
         return response()->json([]);
     }
-} 
+}

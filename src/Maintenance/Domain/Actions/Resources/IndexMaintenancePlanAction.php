@@ -15,6 +15,7 @@ use Carbon\Carbon;
 
 final class IndexMaintenancePlanAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(Request $request): JsonResponse

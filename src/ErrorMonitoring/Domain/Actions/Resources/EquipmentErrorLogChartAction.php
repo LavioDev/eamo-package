@@ -16,22 +16,10 @@ use Throwable;
 
 final class EquipmentErrorLogChartAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(Request $request): JsonResponse
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
-    public function execute(Request $request): array
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
-
-    private function equipmentErrorLogChartData($errorLogs, $limit): array
      {
         // TODO: Implement custom logic
         return response()->json([]);

@@ -13,6 +13,7 @@ use Modules\Equipment\ErrorMonitoring\Infrastructure\Models\EquipmentErrorLog;
 use Modules\Manufacturing\Lot\Infrastructure\Models\LotHistory;
 final class IndexStockOeeChartAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(Request $request): JsonResponse

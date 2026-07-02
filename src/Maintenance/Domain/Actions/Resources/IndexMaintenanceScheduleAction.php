@@ -12,6 +12,7 @@ use Modules\Equipment\Maintenance\Infrastructure\Models\MaintenanceSchedule;
 
 final class IndexMaintenanceScheduleAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(Request $request): JsonResponse

@@ -14,6 +14,7 @@ use Throwable;
 
 final class DeleteEquipmentErrorLogAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(string $id): JsonResponse
@@ -21,4 +22,4 @@ final class DeleteEquipmentErrorLogAction
         // TODO: Implement custom logic
         return response()->json([]);
     }
-} 
+}

@@ -18,11 +18,13 @@ use Throwable;
 
 final class SaveEquipmentErrorLogAction
 {
+
     use AsAction, HasApiResponse;
 
     /**
      * @throws Throwable
      */
+
     public function asController(SaveEquipmentErrorLogRequest $request): JsonResponse
      {
         // TODO: Implement custom logic

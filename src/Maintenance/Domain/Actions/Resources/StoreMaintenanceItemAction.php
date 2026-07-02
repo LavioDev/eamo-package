@@ -16,11 +16,13 @@ use Throwable;
 
 final class StoreMaintenanceItemAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(StoreMaintenanceItemRequest $request): JsonResponse
      {
         // TODO: Implement custom logic

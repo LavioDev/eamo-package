@@ -15,18 +15,10 @@ use Throwable;
 
 final class IndexEquipmentParameterLogAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(Request $request): JsonResponse
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
-    /**
-     * Lấy thông tin standardParameter qua equipmentParameter ID
-     */
-    public function getStandardParameterByEquipmentParameterId(string $equipmentParameterId): ?StandardParameter
      {
         // TODO: Implement custom logic
         return response()->json([]);

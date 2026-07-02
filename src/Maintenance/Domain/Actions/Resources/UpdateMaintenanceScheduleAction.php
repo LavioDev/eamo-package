@@ -19,16 +19,16 @@ use Modules\Equipment\Maintenance\Presentation\Requests\UpdateMaintenanceSchedul
 
 final class UpdateMaintenanceScheduleAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(string $id, UpdateMaintenanceScheduleRequest $request): JsonResponse
      {
         // TODO: Implement custom logic
         return response()->json([]);
     }
-
-
 }

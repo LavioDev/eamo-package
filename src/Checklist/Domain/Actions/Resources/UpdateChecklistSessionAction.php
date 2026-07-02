@@ -15,14 +15,16 @@ use Modules\Equipment\Checklist\Domain\Events\Resources\ChecklistSessionUpdated;
 
 final class UpdateChecklistSessionAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(string $id, UpdateChecklistSessionRequest $request): JsonResponse
      {
         // TODO: Implement custom logic
         return response()->json([]);
     }
-} 
+}

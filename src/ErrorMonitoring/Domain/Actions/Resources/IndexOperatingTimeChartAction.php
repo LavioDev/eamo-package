@@ -13,27 +13,10 @@ use Modules\Equipment\ErrorMonitoring\Infrastructure\Models\OperatingTime;
 
 final class IndexOperatingTimeChartAction
 {
+
     use AsAction, HasApiResponse;
 
     public function asController(Request $request): array
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
-    private function getDataFromTable(Request $request)
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
-    private function sumOperatingTimes(array $data): array
-     {
-        // TODO: Implement custom logic
-        return response()->json([]);
-    }
-
-    private function convertSecondsToHours($seconds): float
      {
         // TODO: Implement custom logic
         return response()->json([]);

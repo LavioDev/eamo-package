@@ -15,11 +15,13 @@ use Throwable;
 
 final class UpdateMaintenanceCategoryAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(string $id, UpdateMaintenanceCategoryRequest $request): JsonResponse
      {
         // TODO: Implement custom logic

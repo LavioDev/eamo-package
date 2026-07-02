@@ -17,6 +17,7 @@ use Throwable;
 final class IndexProprotionActiveEquipmentAction
 {
 
+
     use HasApiResponse, AsAction;
 
     public function asController(Request $request): JsonResponse

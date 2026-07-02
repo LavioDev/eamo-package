@@ -13,6 +13,7 @@ use Throwable;
 
 final class IndexChecklistDetailAction
 {
+
     use HasApiResponse, AsAction;
 
     public function asController(Request $request): JsonResponse

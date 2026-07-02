@@ -14,12 +14,12 @@ use Modules\Manufacturing\Lot\Infrastructure\Models\LotHistory;
 
 final class IndexStockOeeChartAction
 {
+
     use AsAction, HasApiResponse;
 
-      public function asController(Request $request): JsonResponse
+    public function asController(Request $request): JsonResponse
      {
         // TODO: Implement custom logic
         return response()->json([]);
     }
-
 }

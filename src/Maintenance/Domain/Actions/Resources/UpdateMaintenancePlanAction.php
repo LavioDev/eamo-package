@@ -17,11 +17,13 @@ use Throwable;
 
 final class UpdateMaintenancePlanAction
 {
+
     use AsAction, HasApiResponse;
 
     /**
      * @throws Throwable
      */
+
     public function asController(string $id, UpdateMaintenancePlanRequest $fields): JsonResponse
      {
         // TODO: Implement custom logic

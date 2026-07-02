@@ -15,11 +15,13 @@ use Modules\Equipment\Checklist\Domain\Events\Resources\ChecklistSessionCreated;
 
 final class StoreChecklistSessionAction
 {
+
     use HasApiResponse, AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(StoreChecklistSessionRequest $request): JsonResponse
      {
         // TODO: Implement custom logic

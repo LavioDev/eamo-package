@@ -15,11 +15,13 @@ use Throwable;
 
 final class UpdateChecklistDetailAction
 {
+
     use AsAction;
 
     /**
      * @throws Throwable
      */
+
     public function asController(UpdateChecklistDetailRequest $request): JsonResponse
      {
         // TODO: Implement custom logic
