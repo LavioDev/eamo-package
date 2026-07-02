@@ -16,12 +16,12 @@ final class Register extends ServiceProvider implements IModuleProvider
 
     public function getRoutePath(): string
     {
-        return __DIR__ . '/Presentation/routes.php';
+        return __DIR__ . '/routes.php';
     }
 
     public function getMigrationPath(): string
     {
-        return __DIR__ . '/Infrastructure/Migrations';
+        return __DIR__ . '/Migrations';
     }
 
     public function registerPolicies(): void

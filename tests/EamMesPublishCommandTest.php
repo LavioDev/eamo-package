@@ -21,7 +21,7 @@ it('can publish a specific submodule checklist', function () {
     ])->assertSuccessful();
 
     expect(File::exists(base_path('modules/Equipment/Checklist/Register.php')))->toBeTrue();
-    expect(File::exists(base_path('modules/Equipment/Checklist/Presentation/routes.php')))->toBeTrue();
+    expect(File::exists(base_path('modules/Equipment/Checklist/routes.php')))->toBeTrue();
 
     $migrationFiles = File::files(database_path('migrations'));
     expect(count($migrationFiles))->toBe(3);
