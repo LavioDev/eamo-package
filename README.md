@@ -48,7 +48,7 @@ composer update laviodev/eam-mes-package
      ```bash
      php artisan eam-mes:publish --submodule=checklist
      ```
-     Available submodules: `checklist`, `error-monitoring`, `maintenance`, `parameter-log`, `thingsboard`.
+     Available submodules: `checklist`, `error-monitoring`, `maintenance`, `parameter-log`.
 
 3. **Run Migrations**:
    Run the standard Laravel migration command to create the database tables:

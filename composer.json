@@ -1,12 +1,12 @@
 {
-    "name": "laviodev/eamo-package",
+    "name": "laviodev/eam-mes-package",
     "description": "EAMO Package for MES and Equipment management",
     "keywords": [
         "laviodev",
-        "eamo-package",
+        "eam-mes-package",
         "laravel"
     ],
-    "homepage": "https://github.com/LavioDev/eamo-package",
+    "homepage": "https://github.com/LavioDev/eam-mes-package",
     "license": "MIT",
     "authors": [
         {
