@@ -31,10 +31,7 @@ final class Register extends ServiceProvider implements IModuleProvider
 
     public function registerPolicies(): void
     {
-        \Illuminate\Support\Facades\Gate::policy(
-            Infrastructure\Models\EquipmentParameterLog::class,
-            Presentation\Policies\EquipmentParameterLogPolicy::class
-        );
+        // No policies
     }
 
     public function boot(): void

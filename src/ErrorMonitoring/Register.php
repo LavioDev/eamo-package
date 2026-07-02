@@ -6,13 +6,12 @@ namespace Modules\Equipment\ErrorMonitoring;
 
 use App\Providers\IModuleProvider;
 use Illuminate\Support\ServiceProvider;
-use Modules\Equipment\ErrorMonitoring\Infrastructure\Seeders\EquipmentErrorLogSeeder;
 
 final class Register extends ServiceProvider implements IModuleProvider
 {
     public function seed(): void
     {
-        // app(EquipmentErrorLogSeeder::class)->run();
+        // No seeders
     }
 
     public function getRoutePath(): string

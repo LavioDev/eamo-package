@@ -6,21 +6,12 @@ namespace Modules\Equipment\Maintenance;
 
 use App\Providers\IModuleProvider;
 use Illuminate\Support\ServiceProvider;
-use Modules\Equipment\Maintenance\Infrastructure\Seeders\MaintenanceCategorySeeder;
-use Modules\Equipment\Maintenance\Infrastructure\Seeders\MaintenanceScheduleSeeder;
-use Modules\Equipment\Maintenance\Infrastructure\Seeders\MaintenanceItemSeeder;
-use Modules\Equipment\Maintenance\Infrastructure\Seeders\MaintenancePlanSeeder;
-use Modules\Equipment\Maintenance\Infrastructure\Seeders\MaintenanceLogSeeder;
 
 final class Register extends ServiceProvider implements IModuleProvider
 {
     public function seed(): void
     {
-        app(MaintenanceCategorySeeder::class)->run();
-        app(MaintenanceItemSeeder::class)->run();
-        app(MaintenancePlanSeeder::class)->run();
-        app(MaintenanceScheduleSeeder::class)->run();
-        app(MaintenanceLogSeeder::class)->run();
+        // No seeders
     }
 
     public function getRoutePath(): string
