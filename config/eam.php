@@ -43,4 +43,32 @@ return [
 
     'auto_migrate' => env('EAM_AUTO_MIGRATE', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | API Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for HTTP table extension endpoints.
+    |
+    */
+
+    'api' => [
+        'prefix'     => 'eam/api',
+        'middleware' => ['api'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Queue Settings
+    |--------------------------------------------------------------------------
+    |
+    | Background queue options for running asynchronous migrations via HTTP API.
+    |
+    */
+
+    'queue' => [
+        'connection' => env('EAM_QUEUE_CONNECTION', 'sync'),
+        'name'       => env('EAM_QUEUE_NAME', 'eam-extensions'),
+    ],
+
 ];

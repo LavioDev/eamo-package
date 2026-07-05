@@ -205,6 +205,73 @@ Only the following package-managed tables may be extended:
 
 ---
 
+## HTTP Table Extension API
+
+The package also exposes HTTP API endpoints to programmatically request table extensions. These requests are stored in the database (`eam_extension_requests`), validated, and processed asynchronously via Laravel's Queue system.
+
+### Endpoints
+
+#### 1. Request Column Additions (POST)
+- **URL**: `/eam/api/extensions`
+- **Method**: `POST`
+- **Payload**:
+  ```json
+  {
+    "table": "eamo_maintenance_plans",
+    "columns": [
+      {
+        "name": "department_id",
+        "type": "string",
+        "length": 36,
+        "nullable": true,
+        "after": "user_id"
+      },
+      {
+        "name": "is_urgent",
+        "type": "boolean",
+        "default": false
+      }
+    ]
+  }
+  ```
+- **Response (202 Accepted)**:
+  ```json
+  {
+    "message": "Extension request queued successfully.",
+    "id": 42,
+    "status": "queued",
+    "table": "eamo_maintenance_plans",
+    "columns": ["department_id", "is_urgent"],
+    "check_url": "http://yourdomain.com/eam/api/extensions/42"
+  }
+  ```
+
+#### 2. Check Extension Progress (GET)
+- **URL**: `/eam/api/extensions/{id}`
+- **Method**: `GET`
+- **Response (200 OK)**:
+  ```json
+  {
+    "id": 42,
+    "table": "eamo_maintenance_plans",
+    "status": "done",
+    "migration_file": "2026_07_05_120000_extend_eamo_maintenance_plans_table.php",
+    "error_message": null,
+    "created_at": "2026-07-05T04:15:00.000000Z",
+    "updated_at": "2026-07-05T04:16:02.000000Z"
+  }
+  ```
+
+### Background Processing
+
+Make sure to run a queue worker targeting the `eam-extensions` queue to process requests:
+
+```bash
+php artisan queue:work --queue=eam-extensions
+```
+
+---
+
 ## Production Checklist
 
 | ✅ Do | ❌ Don't |

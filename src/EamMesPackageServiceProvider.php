@@ -28,7 +28,7 @@ class EamMesPackageServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         // Bind migration services into the container so SyncExtensionsCommand
-        // can receive them via constructor injection.
+        // and Controllers can receive them via constructor injection.
         $this->app->singleton(StubRenderer::class);
         $this->app->singleton(MigrationFileChecker::class);
         $this->app->singleton(ExtensionValidator::class);
@@ -36,5 +36,11 @@ class EamMesPackageServiceProvider extends PackageServiceProvider
         $this->app->singleton(MigrationGenerator::class, function ($app) {
             return new MigrationGenerator($app->make(StubRenderer::class));
         });
+    }
+
+    public function packageBooted(): void
+    {
+        // Automatically load route files defined inside the package
+        $this->loadRoutesFrom(__DIR__ . '/../routes/eam-api.php');
     }
 }

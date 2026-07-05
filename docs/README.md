@@ -6,6 +6,7 @@
 |---|---|
 | [Modules & Database Structure](modules_and_db.md) | Mô tả các submodule và sơ đồ ERD database |
 | [Dynamic Table Extension](dynamic_table_extension.md) | Cơ chế mở rộng schema động — ý tưởng, kiến trúc, hướng dẫn triển khai |
+| [HTTP Table Extension Plan](http_extension_plan.md) | Kế hoạch tích hợp chức năng thêm trường qua API HTTP (Auto Queue) |
 
 ---
 
