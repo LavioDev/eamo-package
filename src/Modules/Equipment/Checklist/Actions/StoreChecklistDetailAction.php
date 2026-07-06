@@ -14,15 +14,12 @@ use Modules\Equipment\Checklist\Models\ChecklistSession;
 use Modules\Equipment\Checklist\Requests\StoreChecklistDetailRequest;
 use Throwable;
 use App\Helpers\TranslateHelper;
-use App\Concerns\HasApiResponse;
 use Illuminate\Support\Str;
 
 final class StoreChecklistDetailAction
 {
 
-    use HasApiResponse, AsAction;
-
-    /**
+    use AsAction;/**
      * @throws Throwable
      */
 

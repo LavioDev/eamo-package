@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\ParameterLog\Actions;
 
-use App\Concerns\HasApiResponse;
 use App\Helpers\TranslateHelper;
 use Illuminate\Support\Facades\DB;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -19,9 +18,7 @@ use Throwable;
 final class SaveEquipmentParameterLogAction
 {
 
-    use AsAction, HasApiResponse;
-
-    public function asController(SaveEquipmentParameterLogRequest $request)
+    use AsAction;public function asController(SaveEquipmentParameterLogRequest $request)
      {
         // TODO: Implement custom logic
         return response()->json([]);

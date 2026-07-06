@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\ErrorMonitoring\Actions;
 
-use App\Concerns\HasApiResponse;
 use Carbon\CarbonImmutable;
 use Exception;
 use Illuminate\Http\Request;
@@ -19,9 +18,7 @@ use Modules\Masterdata\Equipment\Infrastructure\Models\Equipment;
 final class IndexOperatingTimeAction
 {
 
-    use AsAction, HasApiResponse;
-
-    public function asController(Request $request): array
+    use AsAction;public function asController(Request $request): array
      {
         // TODO: Implement custom logic
         return response()->json([]);

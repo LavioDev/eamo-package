@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\Maintenance\Actions;
 
-use App\Concerns\HasApiResponse;
 use App\Helpers\TranslateHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -16,9 +15,7 @@ use Throwable;
 final class DeleteMaintenanceCategoryAction
 {
 
-    use HasApiResponse, AsAction;
-
-    public function asController(string $id): JsonResponse
+    use AsAction;public function asController(string $id): JsonResponse
      {
         // TODO: Implement custom logic
         return response()->json([]);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\ParameterLog\Actions;
 
-use App\Concerns\HasApiResponse;
 use App\Helpers\TranslateHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +16,7 @@ use Modules\Equipment\ParameterLog\Domain\Events\Resources\EquipmentParameterLog
 final class StoreEquipmentParameterLogAction
 {
 
-    use HasApiResponse, AsAction;
-
-    /**
+    use AsAction;/**
      * @throws Throwable
      */
 

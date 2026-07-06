@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\Maintenance\Actions;
 
-use App\Concerns\HasApiResponse;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +17,7 @@ use Throwable;
 final class UpdateMaintenancePlanAction
 {
 
-    use AsAction, HasApiResponse;
-
-    /**
+    use AsAction;/**
      * @throws Throwable
      */
 

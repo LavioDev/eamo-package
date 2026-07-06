@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\ErrorMonitoring\Actions;
 
-use App\Concerns\HasApiResponse;
 use App\Helpers\TranslateHelper;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -19,9 +18,7 @@ use Throwable;
 final class SaveEquipmentErrorLogAction
 {
 
-    use AsAction, HasApiResponse;
-
-    /**
+    use AsAction;/**
      * @throws Throwable
      */
 

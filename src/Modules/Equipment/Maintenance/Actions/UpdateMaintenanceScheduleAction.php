@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\Maintenance\Actions;
 
-use App\Concerns\HasApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +19,7 @@ use Modules\Equipment\Maintenance\Requests\UpdateMaintenanceScheduleRequest;
 final class UpdateMaintenanceScheduleAction
 {
 
-    use HasApiResponse, AsAction;
-
-    /**
+    use AsAction;/**
      * @throws Throwable
      */
 

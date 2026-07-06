@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\Maintenance\Actions;
 
-use App\Concerns\HasApiResponse;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,9 +18,7 @@ use Illuminate\Support\Collection;
 final class IndexEquipmentStopRateAction
 {
 
-    use AsAction, HasApiResponse;
-
-    public function asController(Request $request): JsonResponse
+    use AsAction;public function asController(Request $request): JsonResponse
      {
         // TODO: Implement custom logic
         return response()->json([]);

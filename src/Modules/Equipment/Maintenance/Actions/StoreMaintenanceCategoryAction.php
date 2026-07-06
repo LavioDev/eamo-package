@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\Maintenance\Actions;
 
-use App\Concerns\HasApiResponse;
 use App\Helpers\TranslateHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -21,9 +20,7 @@ use Modules\Masterdata\Product\Domain\Events\Resources\ProductCreated;
 final class StoreMaintenanceCategoryAction
 {
 
-    use HasApiResponse, AsAction;
-
-    /**
+    use AsAction;/**
      * @throws Throwable
      */
 

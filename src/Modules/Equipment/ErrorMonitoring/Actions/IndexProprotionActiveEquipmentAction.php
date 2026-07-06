@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Equipment\ErrorMonitoring\Actions;
 
-use App\Concerns\HasApiResponse;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Lorisleiva\Actions\Concerns\AsAction;
@@ -18,9 +17,7 @@ final class IndexProprotionActiveEquipmentAction
 {
 
 
-    use HasApiResponse, AsAction;
-
-    public function asController(Request $request): JsonResponse
+    use AsAction;public function asController(Request $request): JsonResponse
      {
         // TODO: Implement custom logic
         return response()->json([]);
