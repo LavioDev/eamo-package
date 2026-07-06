@@ -409,37 +409,14 @@ erDiagram
                     <div class="step-item">
                         <div class="step-marker">3</div>
                         <div class="step-item-body">
-                            <div class="step-item-title">Publish toàn bộ mã nguồn Submodules &amp; Migrations</div>
-                            <p>Chép các file mã nguồn nghiệp vụ từ thư viện sang thư mục <code>modules/Equipment/</code> của Host App để dev có thể custom logic trực tiếp:</p>
+                            <div class="step-item-title">Publish phân hệ Cốt lõi (Core Submodule)</div>
+                            <p>Phân hệ Cốt lõi chứa bảng quản lý yêu cầu mở rộng Schema động (<code>eam_extension_requests</code>). Đây là nền tảng bắt buộc để hệ thống vận hành và đồng bộ dữ liệu:</p>
                             <div class="code-container">
                                 <div class="code-header">
                                     <span>Bash</span>
-                                    <button class="btn-copy" onclick="copySnippet('code-publish-submodules')">Copy</button>
+                                    <button class="btn-copy" onclick="copySnippet('code-publish-core')">Copy</button>
                                 </div>
-                                <div class="code-content" id="code-publish-submodules"><span class="cmt"># Publish toàn bộ các phân hệ cùng lúc (bao gồm core, equipment, masterdata-equipment)</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --all</span>
-
-<span class="cmt"># Hoặc chỉ publish từng phân hệ riêng lẻ để tinh chỉnh:</span>
-<span class="cmt"># 1. Phân hệ Cốt lõi (Core)</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=core</span>
-
-<span class="cmt"># 2. Phân hệ Checklist</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=checklist</span>
-
-<span class="cmt"># 3. Phân hệ Giám sát lỗi (Error Monitoring)</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=error-monitoring</span>
-
-<span class="cmt"># 4. Phân hệ Bảo trì (Maintenance)</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=maintenance</span>
-
-<span class="cmt"># 5. Phân hệ Ghi thông số (Parameter Log)</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=parameter-log</span>
-
-<span class="cmt"># 6. Phân hệ Quản lý Thiết bị (Equipment)</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=equipment</span>
-
-<span class="cmt"># 7. Phân hệ Dữ liệu gốc Thiết bị (Masterdata Equipment)</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=masterdata-equipment</span></div>
+                                <div class="code-content" id="code-publish-core"><span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=core</span></div>
                             </div>
                         </div>
                     </div>
@@ -447,6 +424,55 @@ erDiagram
                     <!-- Step 4 -->
                     <div class="step-item">
                         <div class="step-marker">4</div>
+                        <div class="step-item-body">
+                            <div class="step-item-title">Publish phân hệ Dữ liệu gốc Thiết bị (Masterdata Equipment Submodule)</div>
+                            <p>Định nghĩa cấu trúc dữ liệu gốc của thiết bị (bảng <code>equipment</code>, <code>equipment_categories</code>, <code>equipment_parameters</code>, <code>standard_parameters</code>, và <code>equipment_errors</code>) giúp thiết lập nền tảng liên kết cho mọi nghiệp vụ vận hành:</p>
+                            <div class="code-container">
+                                <div class="code-header">
+                                    <span>Bash</span>
+                                    <button class="btn-copy" onclick="copySnippet('code-publish-masterdata')">Copy</button>
+                                </div>
+                                <div class="code-content" id="code-publish-masterdata"><span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=masterdata-equipment</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="step-item">
+                        <div class="step-marker">5</div>
+                        <div class="step-item-body">
+                            <div class="step-item-title">Publish các phân hệ Nghiệp vụ khác &amp; Vận hành</div>
+                            <p>Bạn có thể publish toàn bộ các phân hệ nghiệp vụ cùng lúc, hoặc chỉ lựa chọn các phân hệ cần thiết cho dự án:</p>
+                            <div class="code-container">
+                                <div class="code-header">
+                                    <span>Bash</span>
+                                    <button class="btn-copy" onclick="copySnippet('code-publish-submodules')">Copy</button>
+                                </div>
+                                <div class="code-content" id="code-publish-submodules"><span class="cmt"># Publish TOÀN BỘ các phân hệ cùng lúc</span>
+<span class="kw">php artisan</span> <span class="str">eam-mes:publish --all</span>
+
+<span class="cmt"># Hoặc chỉ publish từng phân hệ riêng lẻ theo nhu cầu:</span>
+<span class="cmt"># 1. Phân hệ Quản lý Thiết bị (IoT Logs &amp; Dừng ngắn)</span>
+<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=equipment</span>
+
+<span class="cmt"># 2. Phân hệ Checklist (Kiểm tra đầu ca/định kỳ)</span>
+<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=checklist</span>
+
+<span class="cmt"># 3. Phân hệ Giám sát lỗi (Error Logs &amp; OEE)</span>
+<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=error-monitoring</span>
+
+<span class="cmt"># 4. Phân hệ Bảo trì (Kế hoạch &amp; Nhật ký bảo trì)</span>
+<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=maintenance</span>
+
+<span class="cmt"># 5. Phân hệ Ghi thông số (Sensor Parameter Log)</span>
+<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=parameter-log</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="step-item">
+                        <div class="step-marker">6</div>
                         <div class="step-item-body">
                             <div class="step-item-title">Thực thi migrate cơ sở dữ liệu</div>
                             <p>Tạo các bảng cơ sở dữ liệu <code>eamo_*</code> trong DB:</p>
@@ -470,9 +496,10 @@ erDiagram
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 120px;">Phương thức</th>
+                            <th style="width: 100px;">Phương thức</th>
                             <th>Đường dẫn API</th>
                             <th>Mô tả chức năng</th>
+                            <th>Phân hệ / Module</th>
                             <th style="width: 130px;">Middleware bảo vệ</th>
                         </tr>
                     </thead>
@@ -481,72 +508,84 @@ erDiagram
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/eam/api/extensions</code></td>
                             <td>Tạo yêu cầu mở rộng thêm trường thông tin mới cho DB</td>
+                            <td>Core (Mở rộng Schema)</td>
                             <td>api (Tùy biến cấu hình)</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/eam/api/extensions/{id}</code></td>
                             <td>Lấy trạng thái xử lý tiến trình thêm trường (queued/processing/done/failed)</td>
+                            <td>Core (Mở rộng Schema)</td>
                             <td>api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/checklist-details</code></td>
                             <td>Lấy danh sách các hạng mục kiểm tra chi tiết thiết bị</td>
+                            <td>Checklist</td>
                             <td>auth:api (Sanctum/Passport)</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/checklist-details</code></td>
                             <td>Ghi nhận kết quả kiểm tra từng hạng mục thiết bị đầu ca</td>
+                            <td>Checklist</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/checklist-sessions</code></td>
                             <td>Truy xuất danh sách các phiên kiểm tra thiết bị</td>
+                            <td>Checklist</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment/error-monitoring/equipment-error-logs</code></td>
                             <td>Truy xuất nhật ký ghi lỗi dừng máy của máy móc</td>
+                            <td>Error Monitoring</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/equipment/error-monitoring/equipment-error-logs/save</code></td>
                             <td>Lưu hoặc cập nhật nhanh sự cố (hợp nhất store/update)</td>
+                            <td>Error Monitoring</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment/error-monitoring/equipment-error-logs/oee</code></td>
                             <td>Phân tích biểu đồ chỉ số OEE của máy móc</td>
+                            <td>Error Monitoring</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/maintenance-plans</code></td>
                             <td>Danh sách các kế hoạch bảo trì thiết bị tuần hoàn</td>
+                            <td>Maintenance</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/maintenance-plans</code></td>
                             <td>Đăng ký kế hoạch bảo trì thiết bị mới</td>
+                            <td>Maintenance</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/maintenance-schedules</code></td>
                             <td>Danh sách chi tiết lịch trình sửa chữa bảo trì phân bổ</td>
+                            <td>Maintenance</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/equipment/equipment-parameter/logs/save</code></td>
                             <td>Lưu hàng loạt thông số vận hành (áp suất, nhiệt độ...)</td>
+                            <td>Parameter Log</td>
                             <td>auth:api</td>
                         </tr>
                         <!-- Equipment CRUD -->
@@ -554,30 +593,35 @@ erDiagram
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment</code></td>
                             <td>Lấy danh sách các thiết bị máy móc</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/equipment</code></td>
                             <td>Đăng ký thiết bị máy móc mới</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment/{id}</code></td>
                             <td>Lấy chi tiết thông tin thiết bị máy móc</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method put">PUT</span></td>
                             <td><code class="api-path">/v1/equipment/{id}</code></td>
                             <td>Cập nhật thông tin thiết bị máy móc</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method delete">DELETE</span></td>
                             <td><code class="api-path">/v1/equipment/{id}</code></td>
                             <td>Xóa thông tin thiết bị máy móc</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <!-- Equipment Categories CRUD -->
@@ -585,30 +629,35 @@ erDiagram
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment-categories</code></td>
                             <td>Lấy danh sách các nhóm thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/equipment-categories</code></td>
                             <td>Đăng ký nhóm thiết bị mới</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment-categories/{id}</code></td>
                             <td>Lấy chi tiết thông tin nhóm thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method put">PUT</span></td>
                             <td><code class="api-path">/v1/equipment-categories/{id}</code></td>
                             <td>Cập nhật thông tin nhóm thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method delete">DELETE</span></td>
                             <td><code class="api-path">/v1/equipment-categories/{id}</code></td>
                             <td>Xóa thông tin nhóm thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <!-- Equipment Parameters CRUD -->
@@ -616,30 +665,35 @@ erDiagram
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment-parameters</code></td>
                             <td>Lấy danh sách các thông số thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/equipment-parameters</code></td>
                             <td>Đăng ký thông số thiết bị mới</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment-parameters/{id}</code></td>
                             <td>Lấy chi tiết thông số thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method put">PUT</span></td>
                             <td><code class="api-path">/v1/equipment-parameters/{id}</code></td>
                             <td>Cập nhật thông số thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method delete">DELETE</span></td>
                             <td><code class="api-path">/v1/equipment-parameters/{id}</code></td>
                             <td>Xóa thông số thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <!-- Standard Parameters CRUD -->
@@ -647,30 +701,35 @@ erDiagram
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/standard-parameters</code></td>
                             <td>Lấy danh sách các ngưỡng tiêu chuẩn thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/standard-parameters</code></td>
                             <td>Đăng ký ngưỡng tiêu chuẩn thiết bị mới</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/standard-parameters/{id}</code></td>
                             <td>Lấy chi tiết ngưỡng tiêu chuẩn thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method put">PUT</span></td>
                             <td><code class="api-path">/v1/standard-parameters/{id}</code></td>
                             <td>Cập nhật ngưỡng tiêu chuẩn thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method delete">DELETE</span></td>
                             <td><code class="api-path">/v1/standard-parameters/{id}</code></td>
                             <td>Xóa ngưỡng tiêu chuẩn thiết bị</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <!-- Equipment Errors CRUD -->
@@ -678,30 +737,35 @@ erDiagram
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment-errors</code></td>
                             <td>Lấy danh sách cấu hình lỗi hệ thống</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method post">POST</span></td>
                             <td><code class="api-path">/v1/equipment-errors</code></td>
                             <td>Đăng ký cấu hình lỗi mới</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/equipment-errors/{id}</code></td>
                             <td>Lấy chi tiết cấu hình lỗi</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method put">PUT</span></td>
                             <td><code class="api-path">/v1/equipment-errors/{id}</code></td>
                             <td>Cập nhật cấu hình lỗi</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method delete">DELETE</span></td>
                             <td><code class="api-path">/v1/equipment-errors/{id}</code></td>
                             <td>Xóa cấu hình lỗi</td>
+                            <td>Masterdata Equipment (Dữ liệu gốc)</td>
                             <td>auth:api</td>
                         </tr>
                         <!-- IoT Logs -->
@@ -709,12 +773,14 @@ erDiagram
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/iot-logs</code></td>
                             <td>Lấy danh sách log vận hành thiết bị gửi từ IoT/Sensor</td>
+                            <td>Equipment (Quản lý Thiết bị)</td>
                             <td>auth:api</td>
                         </tr>
                         <tr>
                             <td><span class="badge-method get">GET</span></td>
                             <td><code class="api-path">/v1/iot-logs/{id}</code></td>
                             <td>Lấy chi tiết log vận hành thiết bị</td>
+                            <td>Equipment (Quản lý Thiết bị)</td>
                             <td>auth:api</td>
                         </tr>
                     </tbody>
