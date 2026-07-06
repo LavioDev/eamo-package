@@ -1,6 +1,7 @@
 // Collapsible Sidebar Menus
 function toggleSubmenu(id, btn) {
     const menu = document.getElementById(id);
+    if (!menu) return;
     const isOpened = menu.classList.contains('open');
     
     // Toggle
@@ -20,19 +21,26 @@ function showView(viewId, linkElement) {
     views.forEach(view => view.classList.remove('active'));
 
     // Show target view
-    document.getElementById(viewId).classList.add('active');
+    const target = document.getElementById(viewId);
+    if (target) {
+        target.classList.add('active');
+    }
 
     // Deactivate all nav links
     const links = document.querySelectorAll('.submenu-link, .standalone-link');
     links.forEach(l => l.classList.remove('active'));
 
     // Activate current
-    linkElement.classList.add('active');
+    if (linkElement) {
+        linkElement.classList.add('active');
+    }
 }
 
 // Copy plain text to clipboard
 function copySnippet(id) {
-    const text = document.getElementById(id).innerText;
+    const element = document.getElementById(id);
+    if (!element) return;
+    const text = element.innerText;
     navigator.clipboard.writeText(text).then(() => {
         showToastNotification();
     });
@@ -40,6 +48,7 @@ function copySnippet(id) {
 
 function showToastNotification() {
     const toast = document.getElementById('toast-notif');
+    if (!toast) return;
     toast.classList.add('show');
     setTimeout(() => {
         toast.classList.remove('show');
@@ -78,6 +87,7 @@ function editColumnField(index, field, value) {
 
 function renderColumnsForm() {
     const container = document.getElementById('gen-columns-list');
+    if (!container) return;
     container.innerHTML = '';
 
     colData.forEach((col, idx) => {
@@ -130,11 +140,17 @@ function renderColumnsForm() {
 }
 
 function runCodeGenerator() {
-    const tableName = document.getElementById('input-table').value;
-    const className = document.getElementById('input-class').value || 'MyTableExtension';
-    const priorityVal = document.getElementById('input-priority').value || '10';
+    const inputTable = document.getElementById('input-table');
+    const inputClass = document.getElementById('input-class');
+    const inputPriority = document.getElementById('input-priority');
+    const ideTabLabel = document.getElementById('ide-tab-label');
+    if (!inputTable || !inputClass || !inputPriority || !ideTabLabel) return;
 
-    document.getElementById('ide-tab-label').textContent = className + '.php';
+    const tableName = inputTable.value;
+    const className = inputClass.value || 'MyTableExtension';
+    const priorityVal = inputPriority.value || '10';
+
+    ideTabLabel.textContent = className + '.php';
 
     let colsMarkup = '';
     colData.forEach((col, idx) => {
@@ -183,7 +199,10 @@ ${colsMarkup}
     }
 }`;
 
-    document.getElementById('output-generator-code').innerHTML = highlightPHP(template);
+    const outputGenCode = document.getElementById('output-generator-code');
+    if (outputGenCode) {
+        outputGenCode.innerHTML = highlightPHP(template);
+    }
 }
 
 function highlightPHP(code) {
@@ -231,6 +250,7 @@ function highlightPHP(code) {
 
 function copyGenCodeToClipboard() {
     const pre = document.getElementById('output-generator-code');
+    if (!pre) return;
     navigator.clipboard.writeText(pre.innerText).then(() => {
         showToastNotification();
     });
@@ -341,8 +361,12 @@ function renderApiColumnsForm() {
 }
 
 function runApiCodeGenerator() {
-    const tableName = document.getElementById('input-api-table').value;
-    const apiUrl = document.getElementById('input-api-url').value || 'http://your-app.test/eam/api/extensions';
+    const inputTable = document.getElementById('input-api-table');
+    const inputUrl = document.getElementById('input-api-url');
+    if (!inputTable || !inputUrl) return;
+
+    const tableName = inputTable.value;
+    const apiUrl = inputUrl.value || 'http://your-app.test/eam/api/extensions';
 
     const columnsArr = apiColData.map(col => {
         const item = {
@@ -362,6 +386,9 @@ function runApiCodeGenerator() {
 
     const jsonString = JSON.stringify(payloadObj, null, 4);
 
+    const outputApiGen = document.getElementById('output-api-generator-code');
+    if (!outputApiGen) return;
+
     if (currentApiTab === 'json') {
         // Highlight JSON
         let highlightedJson = jsonString
@@ -376,7 +403,7 @@ function runApiCodeGenerator() {
         // Match booleans
         highlightedJson = highlightedJson.replace(/\b(true|false)\b/g, '<span class="kw">$1</span>');
         
-        document.getElementById('output-api-generator-code').innerHTML = highlightedJson;
+        outputApiGen.innerHTML = highlightedJson;
     } else {
         // Highlight Curl Command (Bash style)
         const curlCmd = `curl -X POST "${apiUrl}" \\
@@ -391,16 +418,17 @@ function runApiCodeGenerator() {
         // Highlight curl keywords
         highlightedCurl = highlightedCurl.replace(/\b(curl)\b/g, '<span class="kw">$1</span>');
         highlightedCurl = highlightedCurl.replace(/(-X POST|-H|-d)/g, '<span class="cls">$1</span>');
-        highlightedCurl = highlightedCurl.replace(/("Content-Type: application/json")/g, '<span class="str">$1</span>');
+        highlightedCurl = highlightedCurl.replace(/("Content-Type: application\/json")/g, '<span class="str">$1</span>');
         // Highlight single-quoted string (data)
         highlightedCurl = highlightedCurl.replace(/('[^']*')/g, '<span class="str">$1</span>');
 
-        document.getElementById('output-api-generator-code').innerHTML = highlightedCurl;
+        outputApiGen.innerHTML = highlightedCurl;
     }
 }
 
 function copyApiCodeToClipboard() {
     const pre = document.getElementById('output-api-generator-code');
+    if (!pre) return;
     navigator.clipboard.writeText(pre.innerText).then(() => {
         showToastNotification();
     });
