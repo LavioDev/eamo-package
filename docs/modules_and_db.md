@@ -44,56 +44,47 @@ Sơ đồ quan hệ dưới đây mô tả cấu trúc dữ liệu gốc của t
 erDiagram
     eamo_equipment ||--o| eamo_equipment_categories : "belongs to"
     eamo_equipment ||--o{ eamo_equipment_parameters : "has"
-    eamo_equipment ||--o{ eamo_standard_parameters : "defines standards"
+    eamo_equipment ||--o| eamo_equipment_states : "has state"
+    eamo_equipment ||--o{ eamo_equipment_images : "has images"
     eamo_equipment ||--o{ eamo_equipment_equipment_errors : "pivot"
     eamo_equipment_errors ||--o{ eamo_equipment_equipment_errors : "pivot"
-    eamo_equipment ||--o{ eamo_iot_logs : "records logs"
 
     eamo_equipment {
         string id PK
-        string code UK
+        string code
         string name
-        string process_id
-        string factory_id
-        boolean virtual_equipment
-        string equipment_category_id
-        string image_id
-        date date_imported
-        boolean state
+        string equipment_category_id FK
         string device_id
-        unsigned_integer assigned_productivity_per_hour
-        decimal assigned_machine_productivity_person
         boolean is_active
-        timestamp created_at
-        timestamp updated_at
     }
 
     eamo_equipment_categories {
         string id PK
+        string code
         string name
-        timestamp created_at
-        timestamp updated_at
+    }
+
+    eamo_equipment_states {
+        string id PK
+        string equipment_id FK
+        string state
+    }
+
+    eamo_equipment_images {
+        string id PK
+        string equipment_id FK
+        string image_id
+        string path
     }
 
     eamo_equipment_parameters {
         string id PK
-        string code UK
+        string code
         string equipment_id FK
-        string unit_id
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_standard_parameters {
-        string id PK
-        string equipment_id FK
-        string equipment_parameter_id FK
         decimal standard
         decimal standard_max
         decimal standard_min
         string unit_id
-        timestamp created_at
-        timestamp updated_at
     }
 
     eamo_equipment_errors {
@@ -102,25 +93,11 @@ erDiagram
         text reason
         text fix
         text protection_measures
-        timestamp created_at
-        timestamp updated_at
     }
 
     eamo_equipment_equipment_errors {
-        string equipment_id PK_FK
-        string equipment_error_id PK_FK
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_iot_logs {
-        bigint id PK
-        timestamptz ts
-        string type
-        jsonb data
-        string equipment_id FK
-        string work_center_id
-        string work_order_id
+        string equipment_id PK, FK
+        string equipment_error_id PK, FK
     }
 ```
 
