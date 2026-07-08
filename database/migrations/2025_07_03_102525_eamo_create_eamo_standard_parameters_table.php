@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('standard_parameters', function (Blueprint $table) {
+        Schema::create('eamo_standard_parameters', function (Blueprint $table) {
             $table->string('id', 36)->primary();
             $table->string('equipment_id', 36)->nullable();
             $table->string('equipment_parameter_id', 36);
@@ -20,14 +20,13 @@ return new class extends Migration
             $table->string('unit_id', 36)->nullable();
             $table->timestamps();
 
-            $table->foreign('equipment_id')->references('id')->on('equipment')->nullOnDelete()->cascadeOnUpdate();
-            $table->foreign('equipment_parameter_id')->references('id')->on('equipment_parameters')->onDelete('cascade')->cascadeOnUpdate();
-            $table->foreign('unit_id')->references('id')->on('units')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreign('equipment_id')->references('id')->on('eamo_equipment')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreign('equipment_parameter_id')->references('id')->on('eamo_equipment_parameters')->onDelete('cascade')->cascadeOnUpdate();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('standard_parameters');
+        Schema::dropIfExists('eamo_standard_parameters');
     }
 };

@@ -42,7 +42,7 @@ final class StandardParameter extends Model
 
     protected $keyType = 'string';
 
-    protected $table = 'standard_parameters';
+    protected $table = 'eamo_standard_parameters';
 
     public function equipment(): BelongsTo
     {

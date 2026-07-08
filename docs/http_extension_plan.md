@@ -46,12 +46,12 @@ Tài liệu này mô tả chi tiết phương án thiết kế và kế hoạch 
 
 ---
 
-## 3. Cấu Trúc Bảng Dữ Liệu `eam_extension_requests`
+## 3. Cấu Trúc Bảng Dữ Liệu `eamo_extension_requests`
 
 Bảng này đóng vai trò lưu trữ nhật ký (audit trail), quản lý tiến trình và trạng thái của các yêu cầu mở rộng bảng.
 
 ```php
-Schema::create('eam_extension_requests', function (Blueprint $table) {
+Schema::create('eamo_extension_requests', function (Blueprint $table) {
     $table->id();
     $table->string('table_name');
     $table->json('columns');                   // Mảng các ColumnDefinition đã được định nghĩa
@@ -72,7 +72,7 @@ Schema::create('eam_extension_requests', function (Blueprint $table) {
 ```
 
 > [!IMPORTANT]
-> **Yêu cầu cài đặt DB**: Trước khi sử dụng API này, bạn bắt buộc phải publish và chạy migration cho bảng `eam_extension_requests` của phân hệ cốt lõi (`core`) sang Host App:
+> **Yêu cầu cài đặt DB**: Trước khi sử dụng API này, bạn bắt buộc phải publish và chạy migration cho bảng `eamo_extension_requests` của phân hệ cốt lõi (`core`) sang Host App:
 > ```bash
 > php artisan eam-mes:publish --submodule=core
 > php artisan migrate
@@ -174,7 +174,7 @@ Job này sẽ chạy ngầm bằng Queue Worker (`php artisan queue:work --queue
 *   **Race Condition**: Người dùng gửi hai request giống hệt nhau liên tiếp.
     *   *Giải pháp*: Sử dụng DB unique constraint/index, đồng thời sử dụng `MigrationFileChecker` để quét cả file lẫn thực tế cấu trúc DB hiện tại trước khi tạo record và dispatch job.
 *   **Lỗi trong quá trình Chạy Migration**: File migration sinh ra thành công nhưng không migrate được (do lỗi cấu trúc hoặc DB lock).
-    *   *Giải pháp*: Trạng thái sẽ cập nhật là `failed`, nhà phát triển có thể kiểm tra lỗi thông qua API hoặc bảng `eam_extension_requests` và tiến hành sửa lỗi bằng cách chạy lệnh migrate thủ công sau đó.
+    *   *Giải pháp*: Trạng thái sẽ cập nhật là `failed`, nhà phát triển có thể kiểm tra lỗi thông qua API hoặc bảng `eamo_extension_requests` và tiến hành sửa lỗi bằng cách chạy lệnh migrate thủ công sau đó.
 *   **Security (Bảo mật)**: Attacker lạm dụng API để thay đổi cấu trúc DB.
     *   *Giải pháp*: Bắt buộc tích hợp Middleware xác thực (ví dụ: `auth:sanctum` hoặc các middleware phân quyền admin) trong file cấu hình `config/eam.php`.
 
@@ -182,7 +182,7 @@ Job này sẽ chạy ngầm bằng Queue Worker (`php artisan queue:work --queue
 
 ## 7. Kế Hoạch Triển Khai (Checklist)
 
-- [ ] **Bước 1**: Tạo file migration tạo bảng `eam_extension_requests`.
+- [ ] **Bước 1**: Tạo file migration tạo bảng `eamo_extension_requests`.
 - [ ] **Bước 2**: Tạo Model `ExtensionRequest` hỗ trợ lưu dữ liệu dạng json cho các cột.
 - [ ] **Bước 3**: Tạo `StoreExtensionRequest` để validate dữ liệu từ HTTP payload.
 - [ ] **Bước 4**: Tạo `ExtensionController` chứa phương thức `store` và `show`.

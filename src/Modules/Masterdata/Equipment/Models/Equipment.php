@@ -51,7 +51,7 @@ final class Equipment extends Model
 
     protected $keyType = 'string';
 
-    protected $table = 'equipment';
+    protected $table = 'eamo_equipment';
 
     /**
      * @return BelongsTo<EquipmentCategory, $this>
@@ -76,7 +76,7 @@ final class Equipment extends Model
     {
         return $this->belongsToMany(
             EquipmentError::class,
-            'equipment_equipment_errors',
+            'eamo_equipment_equipment_errors',
             'equipment_id',
             'equipment_error_id'
         )->withTimestamps();

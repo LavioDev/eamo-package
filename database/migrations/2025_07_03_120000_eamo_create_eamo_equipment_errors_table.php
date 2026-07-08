@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('equipment_errors', function (Blueprint $table): void {
+        Schema::create('eamo_equipment_errors', function (Blueprint $table): void {
             $table->string('id', 36)->primary();
             $table->string('name');
             $table->text('reason')->nullable();
@@ -22,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('equipment_errors');
+        Schema::dropIfExists('eamo_equipment_errors');
     }
 };

@@ -38,7 +38,7 @@ final class IotLog extends Model
 
     protected $keyType = 'int';
 
-    protected $table = 'iot_logs';
+    protected $table = 'eamo_iot_logs';
 
     /**
      * Disable Laravel's automatic timestamp management

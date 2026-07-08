@@ -8,16 +8,17 @@ use Illuminate\Support\Facades\File;
 class EamMesPublishCommand extends Command
 {
     protected $signature = 'eam-mes:publish 
-                            {--all : Publish all submodules (including core)}
-                            {--submodule= : Publish a specific submodule (core, checklist, error-monitoring, maintenance, parameter-log, equipment, masterdata-equipment)}';
+                            {--all : Publish all modules and submodules (including core)}
+                            {--module= : Publish a specific module (equipment, masterdata-equipment)}
+                            {--submodule= : Publish a specific submodule (checklist, error-monitoring, maintenance, parameter-log, management)}';
 
-    protected $description = 'Publish code files (models, actions, requests, routes) and migrations for EAM MES submodules to the main application';
+    protected $description = 'Publish code files (models, actions, requests, routes) and migrations for EAM MES modules to the main application';
 
     protected array $submodules = [
         'core' => [
             'name' => 'Core',
             'migrations' => [
-                '2026_07_05_000000_create_eam_extension_requests_table.php',
+                '2026_07_05_000000_create_eamo_extension_requests_table.php',
             ],
             'source_dir' => '',
         ],
@@ -59,10 +60,10 @@ class EamMesPublishCommand extends Command
             'source_dir' => 'Equipment/ParameterLog',
             'dest_dir' => 'modules/Equipment/ParameterLog',
         ],
-        'equipment' => [
+        'management' => [
             'name' => 'Management',
             'migrations' => [
-                '2025_08_04_064327_eamo_create_iot_logs_table.php',
+                '2025_08_04_064327_eamo_create_eamo_iot_logs_table.php',
                 '2025_08_04_100000_eamo_seed_short_stop_equipment_error_for_iot_equipment.php',
             ],
             'source_dir' => 'Equipment/Management',
@@ -71,11 +72,11 @@ class EamMesPublishCommand extends Command
         'masterdata-equipment' => [
             'name' => 'MasterdataEquipment',
             'migrations' => [
-                '2025_06_23_084823_eamo_create_equipment_table.php',
-                '2025_07_03_095341_eamo_create_equipment_parameters_table.php',
-                '2025_07_03_102525_eamo_create_standard_parameters_table.php',
-                '2025_07_03_120000_eamo_create_equipment_errors_table.php',
-                '2025_08_04_092812_eamo_create_equipment_equipment_errors_table.php',
+                '2025_06_23_084823_eamo_create_eamo_equipment_table.php',
+                '2025_07_03_095341_eamo_create_eamo_equipment_parameters_table.php',
+                '2025_07_03_102525_eamo_create_eamo_standard_parameters_table.php',
+                '2025_07_03_120000_eamo_create_eamo_equipment_errors_table.php',
+                '2025_08_04_092812_eamo_create_eamo_equipment_equipment_errors_table.php',
             ],
             'source_dir' => 'Masterdata/Equipment',
             'dest_dir' => 'modules/Masterdata/Equipment',
@@ -85,10 +86,11 @@ class EamMesPublishCommand extends Command
     public function handle(): int
     {
         $all = $this->option('all');
+        $module = $this->option('module');
         $submodule = $this->option('submodule');
 
-        if (!$all && !$submodule) {
-            $this->error('Please specify either --all or --submodule=<name>.');
+        if (!$all && !$module && !$submodule) {
+            $this->error('Please specify either --all, --module=<name>, or --submodule=<name>.');
             return 1;
         }
 
@@ -99,13 +101,43 @@ class EamMesPublishCommand extends Command
             return 0;
         }
 
-        $submodule = strtolower($submodule);
-        if (!array_key_exists($submodule, $this->submodules)) {
-            $this->error("Submodule '{$submodule}' not found. Available submodules: " . implode(', ', array_keys($this->submodules)));
+        if ($module) {
+            $module = strtolower($module);
+            if ($module === 'equipment') {
+                $keys = ['checklist', 'error-monitoring', 'maintenance', 'parameter-log', 'management'];
+                foreach ($keys as $key) {
+                    $this->publishSubmodule($key);
+                }
+                return 0;
+            }
+            if ($module === 'masterdata-equipment') {
+                $this->publishSubmodule('masterdata-equipment');
+                return 0;
+            }
+            $this->error("Module '{$module}' not found. Available modules: equipment, masterdata-equipment");
             return 1;
         }
 
-        $this->publishSubmodule($submodule);
+        if ($submodule) {
+            $submodule = strtolower($submodule);
+            // Legacy/Alias mapping
+            if ($submodule === 'equipment') {
+                $submodule = 'management';
+            }
+            if ($submodule === 'masterdata-equipment') {
+                $this->publishSubmodule('masterdata-equipment');
+                return 0;
+            }
+
+            if (!array_key_exists($submodule, $this->submodules)) {
+                $this->error("Submodule '{$submodule}' not found. Available submodules: checklist, error-monitoring, maintenance, parameter-log, management");
+                return 1;
+            }
+
+            $this->publishSubmodule($submodule);
+            return 0;
+        }
+
         return 0;
     }
 

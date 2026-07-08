@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('equipment', function (Blueprint $table): void {
+        Schema::create('eamo_equipment', function (Blueprint $table): void {
             $table->string('id', 36)->primary();
             $table->string('code', 32)->unique();
             $table->string('process_id', 36)->nullable();
@@ -26,13 +26,11 @@ return new class extends Migration
             $table->decimal('assigned_machine_productivity_person', 10, 2)->nullable()->comment('Assigned machine productivity (person)');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-
-            $table->foreign('process_id')->references('id')->on('processes')->nullOnDelete()->cascadeOnUpdate();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('equipment');
+        Schema::dropIfExists('eamo_equipment');
     }
 };

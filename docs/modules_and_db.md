@@ -42,21 +42,21 @@ Sơ đồ quan hệ dưới đây mô tả cấu trúc dữ liệu gốc của t
 
 ```mermaid
 erDiagram
-    equipment ||--o| equipment_categories : "belongs to"
-    equipment ||--o{ equipment_parameters : "has"
-    equipment ||--o{ standard_parameters : "defines standards"
-    equipment ||--o{ equipment_equipment_errors : "pivot"
-    equipment_errors ||--o{ equipment_equipment_errors : "pivot"
-    equipment ||--o{ iot_logs : "records logs"
+    eamo_equipment ||--o| equipment_categories : "belongs to"
+    eamo_equipment ||--o{ eamo_equipment_parameters : "has"
+    eamo_equipment ||--o{ eamo_standard_parameters : "defines standards"
+    eamo_equipment ||--o{ eamo_equipment_equipment_errors : "pivot"
+    eamo_equipment_errors ||--o{ eamo_equipment_equipment_errors : "pivot"
+    eamo_equipment ||--o{ eamo_iot_logs : "records logs"
 
-    equipment {
+    eamo_equipment {
         string id PK
         string code UK
         string name
-        string process_id FK
+        string process_id
         string factory_id
         boolean virtual_equipment
-        string equipment_category_id FK
+        string equipment_category_id
         string image_id
         date date_imported
         boolean state
@@ -75,7 +75,7 @@ erDiagram
         timestamp updated_at
     }
 
-    equipment_parameters {
+    eamo_equipment_parameters {
         string id PK
         string code UK
         string equipment_id FK
@@ -87,7 +87,7 @@ erDiagram
         timestamp updated_at
     }
 
-    standard_parameters {
+    eamo_standard_parameters {
         string id PK
         string equipment_id FK
         string equipment_parameter_id FK
@@ -99,7 +99,7 @@ erDiagram
         timestamp updated_at
     }
 
-    equipment_errors {
+    eamo_equipment_errors {
         string id PK
         string name
         text reason
@@ -109,14 +109,14 @@ erDiagram
         timestamp updated_at
     }
 
-    equipment_equipment_errors {
+    eamo_equipment_equipment_errors {
         string equipment_id PK_FK
         string equipment_error_id PK_FK
         timestamp created_at
         timestamp updated_at
     }
 
-    iot_logs {
+    eamo_iot_logs {
         bigint id PK
         timestamptz ts
         string type
@@ -141,21 +141,19 @@ erDiagram
 
     eamo_checklist_sessions {
         string id PK
-        string checklist_id
         string equipment_id
-        string user_id
-        string status
-        text notes
+        datetime session_date
+        string created_by
         timestamp created_at
         timestamp updated_at
     }
 
     eamo_checklist_details {
         string id PK
-        string checklist_session_id FK
-        string checklist_item_id
-        string status
-        text notes
+        string checklist_id
+        string session_id FK
+        string description
+        enum result
         timestamp created_at
         timestamp updated_at
     }
@@ -163,7 +161,15 @@ erDiagram
     eamo_operating_times {
         string id PK
         string equipment_id
-        decimal operating_hours
+        string equipment_name
+        decimal working_time
+        decimal planned_stop_time
+        decimal unplanned_stop_time
+        decimal planned_operating_time
+        decimal actual_operating_time
+        decimal availability_factor
+        timestamp start_time
+        timestamp end_time
         date date
         timestamp created_at
         timestamp updated_at
@@ -172,9 +178,12 @@ erDiagram
     eamo_equipment_parameter_logs {
         string id PK
         string equipment_id
-        string parameter_id
+        string equipment_parameter_id
+        string product_id
+        string lot_id
+        string unit_id
         string value
-        datetime logged_at
+        string component_id
         timestamp created_at
         timestamp updated_at
     }
@@ -182,11 +191,11 @@ erDiagram
     eamo_equipment_error_logs {
         string id PK
         string equipment_id
-        string error_id
-        string error_code
-        text message
+        string equipment_error_id
         datetime occurred_at
-        datetime resolved_at
+        datetime restarted_at
+        datetime handled_at
+        string handler_id
         timestamp created_at
         timestamp updated_at
     }

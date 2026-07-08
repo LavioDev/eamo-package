@@ -56,20 +56,26 @@ php artisan migrate
 
 ### 3. Publish Submodule Code Files
 
-Use the publish command to copy models, actions, and routes for specific submodules into your application:
+Use the publish command to copy models, actions, and routes for specific modules or submodules into your application:
 
 ```bash
-# Publish all submodules at once (including core, equipment, and masterdata-equipment)
+# Publish all modules and submodules at once (including core)
 php artisan eam-mes:publish --all
 
-# Publish a specific submodule
-php artisan eam-mes:publish --submodule=core
+# Publish an entire module (including all its submodules)
+php artisan eam-mes:publish --module=equipment
+php artisan eam-mes:publish --module=masterdata-equipment
+
+# Publish a specific submodule of Equipment
 php artisan eam-mes:publish --submodule=checklist
-php artisan eam-mes:publish --submodule=equipment
-php artisan eam-mes:publish --submodule=masterdata-equipment
+php artisan eam-mes:publish --submodule=error-monitoring
+php artisan eam-mes:publish --submodule=maintenance
+php artisan eam-mes:publish --submodule=parameter-log
+php artisan eam-mes:publish --submodule=management
 ```
 
-Available submodules: `core`, `checklist`, `error-monitoring`, `maintenance`, `parameter-log`, `equipment`, `masterdata-equipment`.
+Available modules: `equipment`, `masterdata-equipment`.
+Available submodules of Equipment: `checklist`, `error-monitoring`, `maintenance`, `parameter-log`, `management`.
 
 ---
 
@@ -210,7 +216,7 @@ Only the following package-managed tables may be extended:
 
 ## HTTP Table Extension API
 
-The package also exposes HTTP API endpoints to programmatically request table extensions. These requests are stored in the database (`eam_extension_requests`), validated, and processed asynchronously via Laravel's Queue system.
+The package also exposes HTTP API endpoints to programmatically request table extensions. These requests are stored in the database (`eamo_extension_requests`), validated, and processed asynchronously via Laravel's Queue system.
 
 ### Endpoints
 

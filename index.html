@@ -189,21 +189,21 @@
                     <div class="diagram-title">Mô hình dữ liệu gốc Thiết bị (Mermaid ERD)</div>
                     <pre class="mermaid" style="background: transparent; border: none; overflow-x: auto; display: flex; justify-content: center;">
 erDiagram
-    equipment ||--o| equipment_categories : "belongs to"
-    equipment ||--o{ equipment_parameters : "has"
-    equipment ||--o{ standard_parameters : "defines standards"
-    equipment ||--o{ equipment_equipment_errors : "pivot"
-    equipment_errors ||--o{ equipment_equipment_errors : "pivot"
-    equipment ||--o{ iot_logs : "records logs"
+    eamo_equipment ||--o| equipment_categories : "belongs to"
+    eamo_equipment ||--o{ eamo_equipment_parameters : "has"
+    eamo_equipment ||--o{ eamo_standard_parameters : "defines standards"
+    eamo_equipment ||--o{ eamo_equipment_equipment_errors : "pivot"
+    eamo_equipment_errors ||--o{ eamo_equipment_equipment_errors : "pivot"
+    eamo_equipment ||--o{ eamo_iot_logs : "records logs"
 
-    equipment {
+    eamo_equipment {
         string id PK
         string code UK
         string name
-        string process_id FK
+        string process_id
         string factory_id
         boolean virtual_equipment
-        string equipment_category_id FK
+        string equipment_category_id
         string image_id
         date date_imported
         boolean state
@@ -218,7 +218,7 @@ erDiagram
         string name
     }
 
-    equipment_parameters {
+    eamo_equipment_parameters {
         string id PK
         string code UK
         string equipment_id FK
@@ -228,7 +228,7 @@ erDiagram
         string name
     }
 
-    standard_parameters {
+    eamo_standard_parameters {
         string id PK
         string equipment_id FK
         string equipment_parameter_id FK
@@ -238,7 +238,7 @@ erDiagram
         string unit_id
     }
 
-    equipment_errors {
+    eamo_equipment_errors {
         string id PK
         string name
         text reason
@@ -246,12 +246,12 @@ erDiagram
         text protection_measures
     }
 
-    equipment_equipment_errors {
+    eamo_equipment_equipment_errors {
         string equipment_id PK_FK
         string equipment_error_id PK_FK
     }
 
-    iot_logs {
+    eamo_iot_logs {
         bigint id PK
         timestamptz ts
         string type
@@ -276,44 +276,53 @@ erDiagram
 
     eamo_checklist_sessions {
         string id PK
-        string checklist_id
         string equipment_id
-        string user_id
-        string status
-        text notes
+        datetime session_date
+        string created_by
     }
 
     eamo_checklist_details {
         string id PK
-        string checklist_session_id FK
-        string checklist_item_id
-        string status
-        text notes
+        string checklist_id
+        string session_id FK
+        string description
+        enum result
     }
 
     eamo_operating_times {
         string id PK
         string equipment_id
-        decimal operating_hours
+        string equipment_name
+        decimal working_time
+        decimal planned_stop_time
+        decimal unplanned_stop_time
+        decimal planned_operating_time
+        decimal actual_operating_time
+        decimal availability_factor
+        timestamp start_time
+        timestamp end_time
         date date
     }
 
     eamo_equipment_parameter_logs {
         string id PK
         string equipment_id
-        string parameter_id
+        string equipment_parameter_id
+        string product_id
+        string lot_id
+        string unit_id
         string value
-        datetime logged_at
+        string component_id
     }
 
     eamo_equipment_error_logs {
         string id PK
         string equipment_id
-        string error_id
-        string error_code
-        text message
+        string equipment_error_id
         datetime occurred_at
-        datetime resolved_at
+        datetime restarted_at
+        datetime handled_at
+        string handler_id
     }
 
     eamo_maintenance_plans {
@@ -420,7 +429,7 @@ erDiagram
                         <div class="step-marker">3</div>
                         <div class="step-item-body">
                             <div class="step-item-title">Publish phân hệ Cốt lõi (Core Submodule)</div>
-                            <p>Phân hệ Cốt lõi chứa bảng quản lý yêu cầu mở rộng Schema động (<code>eam_extension_requests</code>). Đây là nền tảng bắt buộc để hệ thống vận hành và đồng bộ dữ liệu:</p>
+                            <p>Phân hệ Cốt lõi chứa bảng quản lý yêu cầu mở rộng Schema động (<code>eamo_extension_requests</code>). Đây là nền tảng bắt buộc để hệ thống vận hành và đồng bộ dữ liệu:</p>
                             <div class="code-container">
                                 <div class="code-header">
                                     <span>Bash</span>
@@ -435,14 +444,14 @@ erDiagram
                     <div class="step-item">
                         <div class="step-marker">4</div>
                         <div class="step-item-body">
-                            <div class="step-item-title">Publish phân hệ Dữ liệu gốc Thiết bị (Masterdata Equipment Submodule)</div>
+                            <div class="step-item-title">Publish module Dữ liệu gốc Thiết bị (Masterdata Equipment Module)</div>
                             <p>Định nghĩa cấu trúc dữ liệu gốc của thiết bị (bảng <code>equipment</code>, <code>equipment_categories</code>, <code>equipment_parameters</code>, <code>standard_parameters</code>, và <code>equipment_errors</code>) giúp thiết lập nền tảng liên kết cho mọi nghiệp vụ vận hành:</p>
                             <div class="code-container">
                                 <div class="code-header">
                                     <span>Bash</span>
                                     <button class="btn-copy" onclick="copySnippet('code-publish-masterdata')">Copy</button>
                                 </div>
-                                <div class="code-content" id="code-publish-masterdata"><span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=masterdata-equipment</span></div>
+                                <div class="code-content" id="code-publish-masterdata"><span class="kw">php artisan</span> <span class="str">eam-mes:publish --module=masterdata-equipment</span></div>
                             </div>
                         </div>
                     </div>
@@ -451,30 +460,33 @@ erDiagram
                     <div class="step-item">
                         <div class="step-marker">5</div>
                         <div class="step-item-body">
-                            <div class="step-item-title">Publish các phân hệ Nghiệp vụ khác &amp; Vận hành</div>
-                            <p>Bạn có thể publish toàn bộ các phân hệ nghiệp vụ cùng lúc, hoặc chỉ lựa chọn các phân hệ cần thiết cho dự án:</p>
+                            <div class="step-item-title">Publish các Module nghiệp vụ khác &amp; Submodule</div>
+                            <p>Bạn có thể publish toàn bộ các module và submodule cùng lúc, hoặc lựa chọn cụ thể theo nhu cầu của dự án:</p>
                             <div class="code-container">
                                 <div class="code-header">
                                     <span>Bash</span>
                                     <button class="btn-copy" onclick="copySnippet('code-publish-submodules')">Copy</button>
                                 </div>
-                                <div class="code-content" id="code-publish-submodules"><span class="cmt"># Publish TOÀN BỘ các phân hệ cùng lúc</span>
+                                <div class="code-content" id="code-publish-submodules"><span class="cmt"># Publish TOÀN BỘ các module và submodule cùng lúc</span>
 <span class="kw">php artisan</span> <span class="str">eam-mes:publish --all</span>
 
-<span class="cmt"># Hoặc chỉ publish từng phân hệ riêng lẻ theo nhu cầu:</span>
-<span class="cmt"># 1. Phân hệ Quản lý Thiết bị (IoT Logs &amp; Dừng ngắn)</span>
-<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=equipment</span>
+<span class="cmt"># Hoặc publish toàn bộ module Equipment (bao gồm tất cả các submodule bên dưới)</span>
+<span class="kw">php artisan</span> <span class="str">eam-mes:publish --module=equipment</span>
 
-<span class="cmt"># 2. Phân hệ Checklist (Kiểm tra đầu ca/định kỳ)</span>
+<span class="cmt"># Hoặc chỉ publish từng submodule riêng lẻ của Equipment:</span>
+<span class="cmt"># 1. Submodule Management (Quản lý Thiết bị - IoT Logs &amp; Dừng ngắn)</span>
+<span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=management</span>
+
+<span class="cmt"># 2. Submodule Checklist (Kiểm tra đầu ca/định kỳ)</span>
 <span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=checklist</span>
 
-<span class="cmt"># 3. Phân hệ Giám sát lỗi (Error Logs &amp; OEE)</span>
+<span class="cmt"># 3. Submodule Error Monitoring (Giám sát lỗi &amp; OEE)</span>
 <span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=error-monitoring</span>
 
-<span class="cmt"># 4. Phân hệ Bảo trì (Kế hoạch &amp; Nhật ký bảo trì)</span>
+<span class="cmt"># 4. Submodule Maintenance (Kế hoạch &amp; Nhật ký bảo trì)</span>
 <span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=maintenance</span>
 
-<span class="cmt"># 5. Phân hệ Ghi thông số (Sensor Parameter Log)</span>
+<span class="cmt"># 5. Submodule Parameter Log (Ghi thông số cảm biến)</span>
 <span class="kw">php artisan</span> <span class="str">eam-mes:publish --submodule=parameter-log</span></div>
                             </div>
                         </div>
@@ -968,7 +980,7 @@ Content-Type: application/json
                 <h2>Bảo mật &amp; Hàng đợi cần kích hoạt</h2>
                 <ul>
                     <li><strong>Queue Worker:</strong> Để xử lý các job sinh file dưới nền, cần chạy lệnh khởi động Queue Worker chuyên biệt: <br> <code>php artisan queue:work --queue=eam-extensions</code></li>
-                    <li><strong>Audit Trail:</strong> Mọi yêu cầu được ghi lại trong bảng nhật ký hệ thống: <code>eam_extension_requests</code>.</li>
+                    <li><strong>Audit Trail:</strong> Mọi yêu cầu được ghi lại trong bảng nhật ký hệ thống: <code>eamo_extension_requests</code>.</li>
                     <li><strong>Bảo vệ API:</strong> Khai báo middleware xác thực (Passport, Sanctum) cho endpoint này bằng cách cấu hình thuộc tính <code>api_middleware</code> trong file <code>config/eam.php</code>.</li>
                 </ul>
             </section>

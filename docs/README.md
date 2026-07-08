@@ -27,7 +27,7 @@ sản xuất (Manufacturing Execution System) và quản lý thiết bị (Equip
 
 | Submodule | Bảng DB | Chức năng |
 |---|---|---|
-| `core` | `eam_extension_requests` | Quản lý yêu cầu mở rộng bảng (bảng lưu request API) |
+| `core` | `eamo_extension_requests` | Quản lý yêu cầu mở rộng bảng (bảng lưu request API) |
 | `checklist` | `eamo_checklist_sessions`, `eamo_checklist_details` | Quản lý kiểm tra thiết bị |
 | `error-monitoring` | `eamo_equipment_error_logs`, `eamo_operating_times` | Theo dõi lỗi thiết bị |
 | `maintenance` | `eamo_maintenance_plans`, `eamo_maintenance_schedules`, `eamo_maintenance_items`, `eamo_maintenance_categories`, `eamo_maintenance_logs` | Quản lý bảo trì |
@@ -37,8 +37,9 @@ sản xuất (Manufacturing Execution System) và quản lý thiết bị (Equip
 
 | Command | Mô tả |
 |---|---|
-| `eam-mes:publish --all` | Publish tất cả submodule vào ứng dụng |
-| `eam-mes:publish --submodule=<name>` | Publish một submodule cụ thể |
+| `eam-mes:publish --all` | Publish tất cả các module và submodule vào ứng dụng |
+| `eam-mes:publish --module=<name>` | Publish một module cụ thể (`equipment`, `masterdata-equipment`) |
+| `eam-mes:publish --submodule=<name>` | Publish một submodule cụ thể của Equipment (`checklist`, `error-monitoring`, `maintenance`, `parameter-log`, `management`) |
 | `eam:sync-extensions` | Sinh migration từ các Extension class đã đăng ký |
 | `eam:sync-extensions --dry-run` | Xem trước không ghi file |
 | `eam:sync-extensions --migrate` | Sinh file và chạy migrate luôn |

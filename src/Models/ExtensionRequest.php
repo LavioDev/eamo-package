@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExtensionRequest extends Model
 {
-    protected $table = 'eam_extension_requests';
+    protected $table = 'eamo_extension_requests';
 
     protected $fillable = [
         'table_name',

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('eam_extension_requests', function (Blueprint $table) {
+        Schema::create('eamo_extension_requests', function (Blueprint $table) {
             $table->id();
             $table->string('table_name');
             $table->json('columns');
@@ -28,6 +28,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('eam_extension_requests');
+        Schema::dropIfExists('eamo_extension_requests');
     }
 };

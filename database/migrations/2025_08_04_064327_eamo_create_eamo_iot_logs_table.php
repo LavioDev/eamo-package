@@ -19,10 +19,10 @@ return new class extends Migration
     public function up(): void
     {
         // check if exist, return
-        if (Schema::connection('pgsql_log')->hasTable('iot_logs')) {
+        if (Schema::connection('pgsql_log')->hasTable('eamo_iot_logs')) {
             return;
         }
-        Schema::connection('pgsql_log')->create('iot_logs', function (Blueprint $table) {
+        Schema::connection('pgsql_log')->create('eamo_iot_logs', function (Blueprint $table) {
             // Primary key - bigserial
             $table->id(); // This creates bigserial in PostgreSQL
 
@@ -47,6 +47,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::connection('pgsql_log')->dropIfExists('iot_logs');
+        Schema::connection('pgsql_log')->dropIfExists('eamo_iot_logs');
     }
 };

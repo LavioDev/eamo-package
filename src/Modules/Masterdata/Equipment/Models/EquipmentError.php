@@ -36,7 +36,7 @@ final class EquipmentError extends Model
 
     protected $keyType = 'string';
 
-    protected $table = 'equipment_errors';
+    protected $table = 'eamo_equipment_errors';
 
     private array $pendingEquipmentIds = [];
 
@@ -47,7 +47,7 @@ final class EquipmentError extends Model
     {
         return $this->belongsToMany(
             Equipment::class,
-            'equipment_equipment_errors',
+            'eamo_equipment_equipment_errors',
             'equipment_error_id',
             'equipment_id'
         )->withTimestamps();

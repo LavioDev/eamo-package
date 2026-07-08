@@ -69,4 +69,32 @@ it('can publish all submodules', function () {
     expect(count($migrationFiles))->toBe(18);
 });
 
+it('can publish an entire module equipment', function () {
+    $this->artisan('eam-mes:publish', [
+        '--module' => 'equipment',
+    ])->assertSuccessful();
+
+    expect(File::exists(base_path('modules/Equipment/Checklist/Register.php')))->toBeTrue();
+    expect(File::exists(base_path('modules/Equipment/ErrorMonitoring/Register.php')))->toBeTrue();
+    expect(File::exists(base_path('modules/Equipment/Maintenance/Register.php')))->toBeTrue();
+    expect(File::exists(base_path('modules/Equipment/ParameterLog/Register.php')))->toBeTrue();
+    expect(File::exists(base_path('modules/Equipment/Management/Register.php')))->toBeTrue();
+    expect(File::exists(base_path('modules/Masterdata/Equipment/Register.php')))->toBeFalse();
+
+    $migrationFiles = File::files(database_path('migrations'));
+    expect(count($migrationFiles))->toBe(12); // 3 (checklist) + 1 (error-monitoring) + 5 (maintenance) + 1 (parameter-log) + 2 (management)
+});
+
+it('can publish an entire module masterdata-equipment', function () {
+    $this->artisan('eam-mes:publish', [
+        '--module' => 'masterdata-equipment',
+    ])->assertSuccessful();
+
+    expect(File::exists(base_path('modules/Masterdata/Equipment/Register.php')))->toBeTrue();
+    expect(File::exists(base_path('modules/Equipment/Checklist/Register.php')))->toBeFalse();
+
+    $migrationFiles = File::files(database_path('migrations'));
+    expect(count($migrationFiles))->toBe(5);
+});
+
 

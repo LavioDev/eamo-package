@@ -43,7 +43,7 @@ final class EquipmentParameter extends Model
 
     protected $keyType = 'string';
 
-    protected $table = 'equipment_parameters';
+    protected $table = 'eamo_equipment_parameters';
 
     public function equipment(): BelongsTo
     {
