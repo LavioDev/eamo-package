@@ -15,6 +15,7 @@ class ExtensionRegistry
      * Only tables managed by this package appear here.
      */
     protected static array $allowedTables = [
+        'eamo_equipment',
         'eamo_maintenance_plans',
         'eamo_maintenance_schedules',
         'eamo_maintenance_items',
