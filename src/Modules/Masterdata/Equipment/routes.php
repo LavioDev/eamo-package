@@ -39,6 +39,16 @@ use Modules\Masterdata\Equipment\Models\EquipmentError;
 use Modules\Masterdata\Equipment\Models\EquipmentParameter;
 use Modules\Masterdata\Equipment\Models\EquipmentState;
 use Modules\Masterdata\Equipment\Models\EquipmentImage;
+use Modules\Masterdata\Equipment\Actions\Unit\IndexUnitAction;
+use Modules\Masterdata\Equipment\Actions\Unit\StoreUnitAction;
+use Modules\Masterdata\Equipment\Actions\Unit\ShowUnitAction;
+use Modules\Masterdata\Equipment\Actions\Unit\UpdateUnitAction;
+use Modules\Masterdata\Equipment\Actions\Unit\DeleteUnitAction;
+use Modules\Masterdata\Equipment\Actions\EquipmentEquipmentError\IndexEquipmentEquipmentErrorAction;
+use Modules\Masterdata\Equipment\Actions\EquipmentEquipmentError\StoreEquipmentEquipmentErrorAction;
+use Modules\Masterdata\Equipment\Actions\EquipmentEquipmentError\ShowEquipmentEquipmentErrorAction;
+use Modules\Masterdata\Equipment\Actions\EquipmentEquipmentError\UpdateEquipmentEquipmentErrorAction;
+use Modules\Masterdata\Equipment\Actions\EquipmentEquipmentError\DeleteEquipmentEquipmentErrorAction;
 
 Route::group([], function (): void {
     Route::prefix('v1/equipment')->name('equipment.')->group(function (): void {
@@ -99,6 +109,22 @@ Route::group([], function (): void {
         Route::delete('/{id}', DeleteEquipmentImageAction::class)
             ->middleware('block.if.referenced:' . EquipmentImage::class)
             ->name('destroy');
+    });
+
+    Route::prefix('v1/units')->name('units.')->group(function (): void {
+        Route::get('/', IndexUnitAction::class)->name('index');
+        Route::post('/', StoreUnitAction::class)->name('store');
+        Route::get('/{id}', ShowUnitAction::class)->name('show');
+        Route::put('/{id}', UpdateUnitAction::class)->name('update');
+        Route::delete('/{id}', DeleteUnitAction::class)->name('destroy');
+    });
+
+    Route::prefix('v1/equipment-equipment-errors')->name('equipment-equipment-errors.')->group(function (): void {
+        Route::get('/', IndexEquipmentEquipmentErrorAction::class)->name('index');
+        Route::post('/', StoreEquipmentEquipmentErrorAction::class)->name('store');
+        Route::get('/{id}', ShowEquipmentEquipmentErrorAction::class)->name('show');
+        Route::put('/{id}', UpdateEquipmentEquipmentErrorAction::class)->name('update');
+        Route::delete('/{id}', DeleteEquipmentEquipmentErrorAction::class)->name('destroy');
     });
 
 });

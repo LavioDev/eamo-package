@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Core\User\Infrastructure\Models\User;
-use Modules\Masterdata\Equipment\Infrastructure\Models\Equipment;
-use Modules\Masterdata\Equipment\Infrastructure\Models\EquipmentError;
+use Modules\Masterdata\Equipment\Models\Equipment;
+use Modules\Masterdata\Equipment\Models\EquipmentError;
 
 /**
  * Class EquipmentErrorLog

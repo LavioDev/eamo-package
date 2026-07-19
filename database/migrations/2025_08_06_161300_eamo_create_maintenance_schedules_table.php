@@ -16,6 +16,9 @@ return new class extends Migration {
             $table->string('maintenance_item_id', 36)->nullable();
             $table->string('maintenance_plan_id', 36);
             $table->date('date');
+            $table->foreignUuid('user_id')->nullable();
+            $table->boolean('is_rescheduled')->default(false);
+            $table->date('original_date')->nullable();
             $table->timestamps();
 
             $table->foreign('maintenance_plan_id')
@@ -27,6 +30,16 @@ return new class extends Migration {
                 ->references('id')
                 ->on('eamo_maintenance_items')
                 ->nullOnDelete();
+            $table->foreign('equipment_id')
+                ->references('id')
+                ->on('eamo_equipment')
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

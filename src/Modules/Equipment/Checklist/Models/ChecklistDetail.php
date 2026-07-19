@@ -44,5 +44,10 @@ final class ChecklistDetail extends Model
         return $this->belongsTo(ChecklistSession::class, 'session_id'); // ✅ CORRECT
     }
 
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(ChecklistSchedule::class, 'checklist_detail_id');
+    }
+
 
 }

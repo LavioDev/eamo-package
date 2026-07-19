@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class EquipmentError
@@ -51,6 +52,11 @@ final class EquipmentError extends Model
             'equipment_error_id',
             'equipment_id'
         )->withTimestamps();
+    }
+
+    public function errorLogs(): HasMany
+    {
+        return $this->hasMany(\Modules\Equipment\ErrorMonitoring\Models\EquipmentErrorLog::class, 'equipment_error_id');
     }
 
     public function setPendingEquipmentIds(array $equipmentIds): void

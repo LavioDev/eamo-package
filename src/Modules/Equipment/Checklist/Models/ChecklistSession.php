@@ -6,9 +6,11 @@ namespace Modules\Equipment\Checklist\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Core\User\Infrastructure\Models\User;
 use App\Concerns\HasDefaultRouteBinding;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Modules\Masterdata\Equipment\Infrastructure\Models\Equipment;
+use Modules\Masterdata\Equipment\Models\Equipment;
 use Modules\Equipment\Checklist\Models\ChecklistDetail;
 
 /**
@@ -30,7 +32,7 @@ final class ChecklistSession extends Model
     protected $fillable = [
         'id',
         'session_date',
-        'created_by',
+        'user_id',
         'equipment_id'
     ];
 
@@ -48,5 +50,15 @@ final class ChecklistSession extends Model
     public function details()
     {
         return $this->hasMany(ChecklistDetail::class, 'session_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(ChecklistSchedule::class, 'checklist_session_id');
     }
 }

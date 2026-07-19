@@ -25,6 +25,10 @@ return new class extends Migration
                 ['equipment_id', 'equipment_error_id', 'restarted_at'],
                 'eamo_error_logs_eq_id_error_id_restarted_at_idx'
             );
+
+            $table->foreign('equipment_id')->references('id')->on('eamo_equipment')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreign('equipment_error_id')->references('id')->on('eamo_equipment_errors')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreign('handler_id')->references('id')->on('users')->nullOnDelete()->cascadeOnUpdate();
         });
     }
 

@@ -8,6 +8,8 @@ use App\Concerns\HasDefaultRouteBinding;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Masterdata\Equipment\Models\Equipment;
 
 /**
  * Class OperatingTime
@@ -57,4 +59,9 @@ final class OperatingTime extends Model
         'start_time' => 'datetime',
         'end_time' => 'datetime',
     ];
+
+    public function equipment(): BelongsTo
+    {
+        return $this->belongsTo(Equipment::class, 'equipment_id');
+    }
 }

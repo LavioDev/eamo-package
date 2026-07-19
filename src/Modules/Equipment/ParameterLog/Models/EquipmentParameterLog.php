@@ -9,9 +9,9 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Modules\Masterdata\Unit\Infrastructure\Models\Unit;
-use Modules\Masterdata\Equipment\Infrastructure\Models\EquipmentParameter;
-use Modules\Masterdata\Equipment\Infrastructure\Models\Equipment;
+use Modules\Masterdata\Equipment\Models\Unit;
+use Modules\Masterdata\Equipment\Models\EquipmentParameter;
+use Modules\Masterdata\Equipment\Models\Equipment;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Inventory\Lot\Infrastructure\Models\StockProductionLot;
 use Modules\Manufacturing\Lot\Infrastructure\Models\Lot;
@@ -94,16 +94,16 @@ final class EquipmentParameterLog extends Model
     /**
      * @return HasOne<Unit, $this>
      */
-    public function unit(): HasOne
+    public function unit(): BelongsTo
     {
-        return $this->hasOne(Unit::class, 'id', 'unit_id');
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 
     /**
      * @return HasOne<Unit, $this>
      */
-    public function equipmentParameter(): HasOne
+    public function equipmentParameter(): BelongsTo
     {
-        return $this->hasOne(EquipmentParameter::class, 'id', 'equipment_parameter_id');
+        return $this->belongsTo(EquipmentParameter::class, 'equipment_parameter_id');
     }
 }

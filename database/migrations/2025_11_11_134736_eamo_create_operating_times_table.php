@@ -25,6 +25,8 @@ return new class extends Migration
             $table->timestamp('end_time');
             $table->date('date')->nullable();
             $table->timestamps();
+
+            $table->foreign('equipment_id')->references('id')->on('eamo_equipment')->restrictOnDelete()->cascadeOnUpdate();
         });
     }
 

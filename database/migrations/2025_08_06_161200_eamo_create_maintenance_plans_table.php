@@ -32,6 +32,16 @@ return new class extends Migration {
                 ->on('eamo_maintenance_categories')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
+            $table->foreign('equipment_id')
+                ->references('id')
+                ->on('eamo_equipment')
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

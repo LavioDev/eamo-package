@@ -1,233 +1,123 @@
-# Các Module & Cấu trúc Cơ sở Dữ liệu - EAM MES Package
+# EAM MES Package — Modules và Database
 
-`eam-mes-package` được thiết kế để cung cấp các module cốt lõi cho hệ thống Quản lý Thiết bị & Tài sản (EAM) và Hệ thống Điều hành Sản xuất (MES).
+Tài liệu này mô tả các module, model, migration và quan hệ dữ liệu hiện có trong package.
 
----
+## 1. Cấu trúc module
 
-## 1. Các Module Con (Submodules) của Package
+| Module | Đường dẫn | Phạm vi |
+|---|---|---|
+| Masterdata Equipment | `src/Modules/Masterdata/Equipment` | Thiết bị, category, state, image, parameter, unit và equipment error |
+| Checklist | `src/Modules/Equipment/Checklist` | Session kiểm tra, detail, schedule và log kết quả |
+| Maintenance | `src/Modules/Equipment/Maintenance` | Category, item, plan, schedule và log bảo trì |
+| Error Monitoring | `src/Modules/Equipment/ErrorMonitoring` | Error log và operating time |
+| Parameter Log | `src/Modules/Equipment/ParameterLog` | Log thông số thiết bị |
+| Extension | `src/Models` và `src/Extensions` | Theo dõi yêu cầu mở rộng schema động |
 
-Package bao gồm 5 module con chính sau đây:
+Mỗi model nghiệp vụ có nhóm `Actions` CRUD skeleton tương ứng. Các action hiện chỉ trả `response()->json([])` để ứng dụng host triển khai business logic sau.
 
-### 1.1 Checklist (Bảng kiểm tra)
-- **Chức năng**: Quản lý quy trình kiểm tra thiết bị trước khi vận hành hoặc kiểm tra định kỳ. Thiết lập các hạng mục kiểm tra, ghi nhận các phiên kiểm tra (sessions) và lưu trữ nhật ký kết quả kiểm tra chi tiết cho từng hạng mục.
-- **Đường dẫn**: `src/Checklist/`
+## 2. Quy ước database
 
-### 1.2 Error Monitoring (Giám sát Lỗi)
-- **Chức năng**: Theo dõi và giám sát lịch sử lỗi của thiết bị. Lưu trữ thông tin về thời điểm xảy ra lỗi, mã lỗi, mô tả lỗi và thời gian khắc phục.
-- **Đường dẫn**: `src/ErrorMonitoring/`
+- Tất cả bảng nghiệp vụ dùng tiền tố `eamo_`.
+- Các ID nghiệp vụ chính dùng chuỗi UUID dài 36 ký tự.
+- Các bảng gán user trực tiếp dùng `user_id`; package không tạo pivot user riêng.
+- `eamo_equipment_equipment_errors` vẫn là pivot nghiệp vụ giữa equipment và equipment error.
+- Các bảng có FK tới `users` giả định ứng dụng host đã có bảng `users` với khóa UUID.
 
-### 1.3 Maintenance (Bảo trì)
-- **Chức năng**: Quản lý toàn bộ vòng đời bảo trì thiết bị, bao gồm kế hoạch bảo trì (plans), lịch trình bảo trì (schedules), định nghĩa các danh mục bảo trì (categories), các hạng mục cần bảo trì (items) và nhật ký lịch sử bảo trì thực tế (logs).
-- **Đường dẫn**: `src/Maintenance/`
+## 3. Danh sách bảng và model
 
-### 1.4 Parameter Log (Ghi nhận Thông số)
-- **Chức năng**: Ghi nhận các thông số vận hành theo thời gian thực của thiết bị (như nhiệt độ, áp suất, điện áp, tần số, v.v.) theo thời gian.
-- **Đường dẫn**: `src/ParameterLog/`
+| Bảng | Model | Module |
+|---|---|---|
+| `eamo_equipment_categories` | `EquipmentCategory` | Masterdata Equipment |
+| `eamo_equipment` | `Equipment` | Masterdata Equipment |
+| `eamo_equipment_states` | `EquipmentState` | Masterdata Equipment |
+| `eamo_equipment_images` | `EquipmentImage` | Masterdata Equipment |
+| `eamo_equipment_parameters` | `EquipmentParameter` | Masterdata Equipment |
+| `eamo_units` | `Unit` | Masterdata Equipment |
+| `eamo_equipment_errors` | `EquipmentError` | Masterdata Equipment |
+| `eamo_equipment_equipment_errors` | `EquipmentEquipmentError` | Masterdata Equipment |
+| `eamo_checklist_sessions` | `ChecklistSession` | Checklist |
+| `eamo_checklist_details` | `ChecklistDetail` | Checklist |
+| `eamo_checklist_schedules` | `ChecklistSchedule` | Checklist |
+| `eamo_checklist_logs` | `ChecklistLog` | Checklist |
+| `eamo_equipment_parameter_logs` | `EquipmentParameterLog` | Parameter Log |
+| `eamo_equipment_error_logs` | `EquipmentErrorLog` | Error Monitoring |
+| `eamo_operating_times` | `OperatingTime` | Error Monitoring |
+| `eamo_maintenance_categories` | `MaintenanceCategory` | Maintenance |
+| `eamo_maintenance_items` | `MaintenanceItem` | Maintenance |
+| `eamo_maintenance_plans` | `MaintenancePlan` | Maintenance |
+| `eamo_maintenance_schedules` | `MaintenanceSchedule` | Maintenance |
+| `eamo_maintenance_logs` | `MaintenanceLog` | Maintenance |
+| `eamo_extension_requests` | `Spatie\LaravelPackageTools\Models\ExtensionRequest` | Extension |
 
-### 1.5 Equipment (Quản lý Equipment)
-- **Chức năng**: Lớp quản lý hoạt động và ghi log thời gian thực (IoT logs, seeding lỗi dừng ngắn) cho các thiết bị.
-- **Đường dẫn**: `src/Equipment/MasterData/`
-
-### 1.6 Masterdata Equipment (Dữ liệu gốc Thiết bị)
-- **Chức năng**: Định nghĩa cấu trúc dữ liệu gốc của thiết bị (equipment), nhóm thiết bị (categories), thông số kỹ thuật (parameters), các ngưỡng tiêu chuẩn (standard parameters) và phân loại lỗi hệ thống (errors).
-- **Đường dẫn**: `src/Masterdata/Equipment/`
-
----
-
-## 2. Sơ đồ Database (Mermaid ERD)
-
-### 2.1 Master Data (Thiết bị & Thông số gốc)
-
-Sơ đồ quan hệ dưới đây mô tả cấu trúc dữ liệu gốc của thiết bị (được quản lý bởi module `masterdata-equipment` và `equipment`):
-
-```mermaid
-erDiagram
-    eamo_equipment ||--o| eamo_equipment_categories : "belongs to"
-    eamo_equipment ||--o{ eamo_equipment_parameters : "has"
-    eamo_equipment ||--o| eamo_equipment_states : "has state"
-    eamo_equipment ||--o{ eamo_equipment_images : "has images"
-    eamo_equipment ||--o{ eamo_equipment_equipment_errors : "pivot"
-    eamo_equipment_errors ||--o{ eamo_equipment_equipment_errors : "pivot"
-
-    eamo_equipment {
-        string id PK
-        string code
-        string name
-        string equipment_category_id FK
-        string device_id
-        boolean is_active
-    }
-
-    eamo_equipment_categories {
-        string id PK
-        string code
-        string name
-    }
-
-    eamo_equipment_states {
-        string id PK
-        string equipment_id FK
-        string state
-    }
-
-    eamo_equipment_images {
-        string id PK
-        string equipment_id FK
-        string image_id
-        string path
-    }
-
-    eamo_equipment_parameters {
-        string id PK
-        string code
-        string equipment_id FK
-        decimal standard
-        decimal standard_max
-        decimal standard_min
-        string unit_id
-    }
-
-    eamo_equipment_errors {
-        string id PK
-        string name
-        text reason
-        text fix
-        text protection_measures
-    }
-
-    eamo_equipment_equipment_errors {
-        string equipment_id PK, FK
-        string equipment_error_id PK, FK
-    }
-```
-
-### 2.2 Operational Data (Checklist, Bảo trì, Lỗi & Log)
-
-Sơ đồ quan hệ dưới đây minh họa các bảng lưu trữ thông tin phát sinh định kỳ hoặc theo chu kỳ bảo trì, vận hành (tất cả các bảng đều sử dụng prefix `eamo_`):
+## 4. Quan hệ dữ liệu
 
 ```mermaid
 erDiagram
-    eamo_checklist_sessions ||--o{ eamo_checklist_details : "has"
-    eamo_maintenance_categories ||--o{ eamo_maintenance_plans : "categorizes"
-    eamo_maintenance_categories ||--o{ eamo_maintenance_items : "contains"
-    eamo_maintenance_plans ||--o{ eamo_maintenance_schedules : "schedules"
-    eamo_maintenance_schedules ||--o{ eamo_maintenance_logs : "records"
+    eamo_equipment_categories ||--o{ eamo_equipment : contains
+    eamo_equipment_categories ||--o{ eamo_equipment_parameters : defines
+    eamo_equipment ||--o{ eamo_equipment : parent_children
+    eamo_equipment ||--o| eamo_equipment_states : has_state
+    eamo_equipment ||--o{ eamo_equipment_images : has_images
+    eamo_equipment ||--o{ eamo_equipment_parameters : has_parameters
+    eamo_equipment ||--o{ eamo_equipment_equipment_errors : maps_errors
+    eamo_equipment_errors ||--o{ eamo_equipment_equipment_errors : maps_equipment
+    eamo_units ||--o{ eamo_equipment_parameters : measures
 
-    eamo_checklist_sessions {
-        string id PK
-        string equipment_id
-        datetime session_date
-        string created_by
-        timestamp created_at
-        timestamp updated_at
-    }
+    eamo_equipment ||--o{ eamo_checklist_sessions : checked
+    eamo_checklist_sessions ||--o{ eamo_checklist_details : contains
+    eamo_checklist_sessions ||--o{ eamo_checklist_schedules : schedules
+    eamo_checklist_details ||--o{ eamo_checklist_schedules : scheduled_detail
+    eamo_checklist_schedules ||--o{ eamo_checklist_logs : records
 
-    eamo_checklist_details {
-        string id PK
-        string checklist_id
-        string session_id FK
-        string description
-        enum result
-        timestamp created_at
-        timestamp updated_at
-    }
+    eamo_equipment ||--o{ eamo_maintenance_plans : plans
+    eamo_maintenance_categories ||--o{ eamo_maintenance_plans : categorizes
+    eamo_maintenance_categories ||--o{ eamo_maintenance_items : contains
+    eamo_maintenance_plans ||--o{ eamo_maintenance_schedules : schedules
+    eamo_maintenance_items ||--o{ eamo_maintenance_schedules : item
+    eamo_maintenance_schedules ||--o{ eamo_maintenance_logs : logs
 
-    eamo_operating_times {
-        string id PK
-        string equipment_id
-        string equipment_name
-        decimal working_time
-        decimal planned_stop_time
-        decimal unplanned_stop_time
-        decimal planned_operating_time
-        decimal actual_operating_time
-        decimal availability_factor
-        timestamp start_time
-        timestamp end_time
-        date date
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_equipment_parameter_logs {
-        string id PK
-        string equipment_id
-        string equipment_parameter_id
-        string product_id
-        string lot_id
-        string unit_id
-        string value
-        string component_id
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_equipment_error_logs {
-        string id PK
-        string equipment_id
-        string equipment_error_id
-        datetime occurred_at
-        datetime restarted_at
-        datetime handled_at
-        string handler_id
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_maintenance_plans {
-        string id PK
-        string plan_code
-        string equipment_id
-        time start_time
-        time end_time
-        time actual_start_time
-        time actual_end_time
-        date date
-        string cycle_type
-        integer cycle_interval
-        text notes
-        string maintenance_type
-        string maintenance_category_id FK
-        string user_id
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_maintenance_categories {
-        string id PK
-        string name
-        text description
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_maintenance_items {
-        string id PK
-        string maintenance_category_id FK
-        string name
-        text description
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_maintenance_schedules {
-        string id PK
-        string equipment_id
-        string maintenance_item_id
-        string maintenance_plan_id FK
-        date date
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    eamo_maintenance_logs {
-        string id PK
-        string maintenance_schedule_id FK
-        date log_date
-        string note
-        string result
-        string type
-        timestamp created_at
-        timestamp updated_at
-    }
+    eamo_equipment ||--o{ eamo_equipment_parameter_logs : parameter_logs
+    eamo_equipment_parameters ||--o{ eamo_equipment_parameter_logs : parameter
+    eamo_equipment ||--o{ eamo_equipment_error_logs : error_logs
+    eamo_equipment_errors ||--o{ eamo_equipment_error_logs : error_type
+    eamo_equipment ||--o{ eamo_operating_times : operating_times
 ```
+
+## 5. Các cột quan trọng
+
+### Equipment và master data
+
+- `eamo_equipment`: `id`, `parent_id`, `code`, `equipment_category_id`, `name`, `device_id`, `maintenance_interval_hours`, `last_maintenance`, `is_active`.
+- `eamo_equipment_parameters`: `id`, `code`, `equipment_id`, `product_category_id`, `equipment_category_id`, `unit_id`, `name`, `standard`, `standard_min`, `standard_max`.
+- `eamo_equipment_states`: một state cho mỗi equipment thông qua unique `equipment_id`.
+- `eamo_equipment_equipment_errors`: khóa chính ghép `equipment_id + equipment_error_id`.
+
+### Checklist
+
+- `eamo_checklist_sessions`: `equipment_id`, `user_id`, `session_date`, `cycle_type`, `cycle_interval`.
+- `eamo_checklist_details`: thuộc một session qua `session_id`.
+- `eamo_checklist_schedules`: `equipment_id`, `checklist_session_id`, `checklist_detail_id`, `user_id`, `date`, `is_rescheduled`, `original_date`.
+- `eamo_checklist_logs`: `checklist_schedule_id`, `user_id`, `result` (`pass|fail`), `status` (`pending|completed`), `checked_at`.
+
+### Maintenance
+
+- `eamo_maintenance_plans`: kế hoạch theo equipment, category và `user_id`; có `occurrences` cho chu kỳ.
+- `eamo_maintenance_items`: thuộc category và có `user_id` trực tiếp.
+- `eamo_maintenance_schedules`: thuộc plan/item/equipment và có `user_id`, trạng thái reschedule.
+- `eamo_maintenance_logs`: thuộc một maintenance schedule qua `maintenance_schedule_id`.
+
+### Logging
+
+- `eamo_equipment_parameter_logs`: liên kết equipment, parameter và unit.
+- `eamo_equipment_error_logs`: liên kết equipment, loại error và `handler_id` tới user host.
+- `eamo_operating_times`: lưu thời gian hoạt động, planned/unplanned stop và availability factor.
+
+## 6. Migration
+
+Migration nằm tại `database/migrations`. Package giữ các migration hiện có và đã tích hợp các bảng bổ sung vào migration phù hợp, không tạo thêm migration riêng cho các pivot user.
+
+Kiểm tra hiện tại:
+
+- 21 bảng package có model tương ứng.
+- Toàn bộ migration package chạy thành công qua `EamMesMigrationsTest`.
+- CRUD action skeleton không thực hiện truy vấn hoặc mutation dữ liệu.

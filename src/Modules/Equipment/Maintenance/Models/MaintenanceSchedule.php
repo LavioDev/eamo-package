@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use App\Concerns\HasDefaultRouteBinding;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Modules\Masterdata\Equipment\Infrastructure\Models\Equipment;
+use Modules\Core\User\Infrastructure\Models\User;
+use Modules\Masterdata\Equipment\Models\Equipment;
 
 /**
  * Class MaintenanceSchedule
@@ -35,6 +36,9 @@ final class MaintenanceSchedule extends Model
         'maintenance_item_id',
         'maintenance_plan_id',
         'date',
+        'user_id',
+        'is_rescheduled',
+        'original_date',
     ];
 
     protected $casts = [
@@ -63,6 +67,11 @@ final class MaintenanceSchedule extends Model
     public function maintenanceLogs(): HasMany
     {
         return $this->hasMany(MaintenanceLog::class, 'maintenance_schedule_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 

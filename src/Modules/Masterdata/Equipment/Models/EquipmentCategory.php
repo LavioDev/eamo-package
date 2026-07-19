@@ -7,6 +7,7 @@ namespace Modules\Masterdata\Equipment\Models;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class EquipmentCategory
@@ -30,6 +31,16 @@ final class EquipmentCategory extends Model
     protected $keyType = 'string';
 
     protected $table = 'eamo_equipment_categories';
+
+    public function equipment(): HasMany
+    {
+        return $this->hasMany(Equipment::class, 'equipment_category_id');
+    }
+
+    public function equipmentParameters(): HasMany
+    {
+        return $this->hasMany(EquipmentParameter::class, 'equipment_category_id');
+    }
 
     protected function casts(): array
     {

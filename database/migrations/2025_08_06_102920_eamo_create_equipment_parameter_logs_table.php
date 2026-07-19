@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('value', 36)->nullable();
             $table->string('component_id', 36)->nullable();
             $table->timestamps();
+
+            $table->foreign('equipment_id')->references('id')->on('eamo_equipment')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreign('equipment_parameter_id')->references('id')->on('eamo_equipment_parameters')->restrictOnDelete()->cascadeOnUpdate();
         });
     }
 
